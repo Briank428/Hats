@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public struct Hats
 {
-    float probability;
-    string type;
-    Sprite image;
+    public string type;
+    public Sprite image;
+    public float probability;
 }
 public class GameManager : MonoBehaviour
 {
-    public List<Hats> hatTypes;
+    public GameObject playerPrefab;
+    [SerializeField]
+    public List<Hats> hatTypes = new List<Hats>();
     public GameObject anvilPrefab;
     public float anvilProbability;
+    private const float SPEED_INIT = 5f; //initial time between drops
+    private const float MAX_SPEED = 0.1f; //max hat drop speed
+    private float currentSpeed; //stores current time between drops
+    private int numHatsCollected;
+    private GameObject playerInstance;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +30,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StartGame()
     {
+        //spawn player
+        playerInstance = Instantiate(playerPrefab) as GameObject;
+        playerInstance.transform.position = new Vector3();
         //Countdown
         for (int i = 3; i >= 1; i--)
         {
