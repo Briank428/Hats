@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Settings
+public class Settings : MonoBehaviour
 {
     public Button startB;
     public Button soundB;
@@ -15,6 +15,7 @@ public class Settings
     public Button resetB;
     public Button resetY;
     public Button resetN;
+    public Image resetPanel;
 
     public bool music;
     public bool sound;
@@ -23,6 +24,7 @@ public class Settings
     {
         music = true;
         sound = true;
+        resetPanel.gameObject.SetActive(false);
         startB.onClick.AddListener(StartGame);
         soundB.onClick.AddListener(ToggleSound);
         musicB.onClick.AddListener(ToggleMusic);
@@ -30,14 +32,14 @@ public class Settings
         leaderB.onClick.AddListener(ShowLeader);
         infoB.onClick.AddListener(ShowInfo);
         resetB.onClick.AddListener(ResetCheck);
-        resetY.onClick.AddListener(ResetYes);
-        resetN.onClick.AddListener(ResetNo);
     }
 
-    public void ResetCheck()
-    {
-        
+    public void ResetCheck() {
+        Debug.Log("Reset Panel");
+        resetPanel.gameObject.SetActive(true);
+
     }
+
     public void ResetYes()
     {
 
