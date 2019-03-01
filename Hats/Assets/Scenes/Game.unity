@@ -228,16 +228,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cff77838c030144faa99b954e17da68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 0}
   hatTypes:
-  - type: 
-    image: {fileID: 0}
-    probability: 0
-  - type: 
-    image: {fileID: 0}
-    probability: 0
+  - {fileID: 0}
+  - {fileID: 0}
   anvilPrefab: {fileID: 0}
-  anvilProbability: 0
+  playerPrefab: {fileID: 0}
 --- !u!4 &1208219973
 Transform:
   m_ObjectHideFlags: 0

@@ -3,13 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[System.Serializable]
-public struct Hat
-{
-    public string type;
-    public Sprite image;
-    public float skipProbability;
-}
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
@@ -32,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
         numLives = 10;
         currentSpeed = SPEED_INIT;
-        StartCoroutine("StartGame");
+        //StartCoroutine("StartGame");
         gmInstance = this;
     }
 
@@ -64,10 +58,10 @@ public class GameManager : MonoBehaviour
         {
             temp = hatTypes[random.Next(hatTypes.Count)];
         } while (random.Next(0,1) < temp.skipProbability);
-        
+
         //spawn hat
 
-
+        Hat temp2 = Instantiate(temp) as Hat;
     }
 
     void SpawnAnvil()
