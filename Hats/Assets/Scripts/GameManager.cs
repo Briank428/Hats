@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        numLives = 10;
+        numLives = 9;
         currentSpeed = SPEED_INIT;
         //StartCoroutine("StartGame");
         gmInstance = this;
@@ -62,17 +62,28 @@ public class GameManager : MonoBehaviour
         //spawn hat
 
         Hat temp2 = Instantiate(temp) as Hat;
+        temp2.transform.position = new Vector2(random.Next(-5,5),5);
     }
 
     void SpawnAnvil()
     {
-        
+        GameObject temp = Instantiate(anvilPrefab) as GameObject;
+        temp.transform.position = new Vector2(random.Next(-5, 5), 5);
     }
 
     public void HatCollected()
     {
         numHatsCollected++;
         if (numHatsCollected % 10 == 0 && currentSpeed > MAX_SPEED) currentSpeed -= SPEED_DECREMENT;
+    }
+
+    public void AnvilHit()
+    {
+        numLives = 0;
+    }
+    public void HatMissed()
+    {
+        numLives--;
     }
     // Update is called once per frame
     void Update()
