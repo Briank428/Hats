@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
+    #region vars
     public Text title;
     public Button startB;
     public Button soundB;
@@ -18,13 +19,16 @@ public class Settings : MonoBehaviour
     public Button resetN;
     public Button infoC;
     public Button leaderC;
+    public Button achieveC;
     public Image resetPanel;
     public Image infoPanel;
     public Image leaderPanel;
+    public Image achievePanel;
 
     public bool music;
     public bool sound;
 
+    #endregion
     void Start()
     {
         music = true;
@@ -32,6 +36,7 @@ public class Settings : MonoBehaviour
         resetPanel.gameObject.SetActive(false);
         infoPanel.gameObject.SetActive(false);
         leaderPanel.gameObject.SetActive(false);
+        achievePanel.gameObject.SetActive(false);
         startB.onClick.AddListener(StartGame);
         soundB.onClick.AddListener(ToggleSound);
         musicB.onClick.AddListener(ToggleMusic);
@@ -41,8 +46,9 @@ public class Settings : MonoBehaviour
         resetB.onClick.AddListener(ResetCheck);
         resetY.onClick.AddListener(ResetYes);
         resetN.onClick.AddListener(ResetNo);
-        infoC.onClick.AddListener(CloseInfo);
         leaderC.onClick.AddListener(CloseLeader);
+        infoC.onClick.AddListener(CloseInfo);
+        achieveC.onClick.AddListener(CloseAchieve);
     }
 
     public void ResetCheck() {
@@ -80,7 +86,16 @@ public class Settings : MonoBehaviour
     }
     public void ShowAchieve()
     {
-
+        achievePanel.gameObject.SetActive(true);
+        startB.gameObject.SetActive(false);
+        title.gameObject.SetActive(false);
+    }
+    public void CloseAchieve()
+    {
+        if ()
+        achievePanel.gameObject.SetActive(false);
+        startB.gameObject.SetActive(true);
+        title.gameObject.SetActive(true);
     }
     public void ShowLeader()
     {
@@ -92,7 +107,7 @@ public class Settings : MonoBehaviour
     {
         startB.gameObject.SetActive(true);
         title.gameObject.SetActive(true);
-        infoPanel.gameObject.SetActive(false);
+        leaderPanel.gameObject.SetActive(false);
     }
     public void ToggleMusic()
     {
