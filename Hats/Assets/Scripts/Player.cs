@@ -10,11 +10,18 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name != "anvil") {
+        if (other.transform.name == "Anvil")
+        {
+            gmInstance.AnvilHit();
+        }
+  
+        else
+        {
             other.transform.parent = this.transform;
             height += other.transform.gameObject.GetComponent<Hat>().height;
             other.transform.localPosition = new Vector2(0,height);
-
+            gmInstance.HatCollected(other.gameObject.GetComponent<Hat>());
         }
-    }
+
+    } 
 }

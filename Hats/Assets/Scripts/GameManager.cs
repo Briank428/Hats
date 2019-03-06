@@ -1,22 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-
 
 public class GameManager : MonoBehaviour
 {
+    private GameManager gmInstance;
+
+    #region public vars
     [SerializeField]
     public List<Hat> hatTypes = new List<Hat>();
-    private const float SPEED_INIT = 5.0f; //initial time between drops
+    public Player playerPrefab;
+    #endregion
+
+    #region consts
+    private const float SPEED_INIT = 2.0f; //initial time between drops
     private const float MAX_SPEED = 0.1f; //max hat drop speed
     private const float SPEED_DECREMENT = 0.1f;
+    #endregion
+
+    #region private vars
     private float currentSpeed; //stores current time between drops
-    public Player playerPrefab;
     private Player playerInstance;
     private int numHatsCollected;
     private int numLives;
-    private GameManager gmInstance;
+    private Hat lastHat;
+    private int hatStreak;
+    #endregion
+
     private static System.Random random = new System.Random();
 
     // Start is called before the first frame update
@@ -24,15 +34,17 @@ public class GameManager : MonoBehaviour
     {
         numLives = 9;
         currentSpeed = SPEED_INIT;
-        //StartCoroutine("StartGame");
+        StartCoroutine("StartGame");
         gmInstance = this;
+        hatStreak = 0;
+        lastHat = null;
     }
 
     IEnumerator StartGame()
     {
         //spawn player
         playerInstance = Instantiate(playerPrefab) as Player;
-        playerInstance.transform.position = Vector3.zero;
+        playerInstance.transform.position = new Vector2(0,-5);
         playerInstance.gmInstance = gmInstance;
 
         //Countdown
@@ -61,17 +73,29 @@ public class GameManager : MonoBehaviour
         //spawn hat
 
         Hat temp2 = Instantiate(temp) as Hat;
+        temp2.gmInstance = gmInstance;
         temp2.transform.position = new Vector2(random.Next(-5,5),5);
     }
 
-    public void HatCollected()
+    public void HatCollected(Hat hat)
     {
         numHatsCollected++;
         if (numHatsCollected % 10 == 0 && currentSpeed > MAX_SPEED) currentSpeed -= SPEED_DECREMENT;
+        if (lastHat == hat)
+        {
+            hatStreak++;
+        }
+        else
+        {
+            lastHat = hat;
+            hatStreak = 1;
+        }
+        Achievements.HatCollected(lastHat, hatStreak);
     }
 
     public void AnvilHit()
     {
+        Achievements.AnvilHitLives(numLives);
         numLives = 0;
     }
     public void HatMissed()
