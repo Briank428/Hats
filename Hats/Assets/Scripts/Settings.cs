@@ -92,7 +92,7 @@ public class Settings : MonoBehaviour
     }
     public void CloseAchieve()
     {
-        if ()
+        if (true) { }
         achievePanel.gameObject.SetActive(false);
         startB.gameObject.SetActive(true);
         title.gameObject.SetActive(true);

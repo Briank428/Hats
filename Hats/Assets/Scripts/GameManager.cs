@@ -8,8 +8,6 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     public List<Hat> hatTypes = new List<Hat>();
-    public GameObject anvilPrefab;
-    public const float ANVIL_PROBABILITY = 0.3f;
     private const float SPEED_INIT = 5.0f; //initial time between drops
     private const float MAX_SPEED = 0.1f; //max hat drop speed
     private const float SPEED_DECREMENT = 0.1f;
@@ -35,6 +33,8 @@ public class GameManager : MonoBehaviour
         //spawn player
         playerInstance = Instantiate(playerPrefab) as Player;
         playerInstance.transform.position = Vector3.zero;
+        playerInstance.gmInstance = gmInstance;
+
         //Countdown
         for (int i = 3; i >= 1; i--)
         {
@@ -46,11 +46,10 @@ public class GameManager : MonoBehaviour
         while (numLives != 0)
         {
             yield return new WaitForSeconds(currentSpeed);
-            if (random.Next(0,1) < ANVIL_PROBABILITY) SpawnAnvil();
-            else { SpawnHat(); }
+            SpawnHat(); 
         }
     }
-    void SpawnHat()
+    void SpawnHat() //spawns hats and anvils (anvils are a type of hat for simplicity)
     {
         //choose hat to spawn
         Hat temp;
@@ -63,12 +62,6 @@ public class GameManager : MonoBehaviour
 
         Hat temp2 = Instantiate(temp) as Hat;
         temp2.transform.position = new Vector2(random.Next(-5,5),5);
-    }
-
-    void SpawnAnvil()
-    {
-        GameObject temp = Instantiate(anvilPrefab) as GameObject;
-        temp.transform.position = new Vector2(random.Next(-5, 5), 5);
     }
 
     public void HatCollected()
