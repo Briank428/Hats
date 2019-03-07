@@ -14,11 +14,11 @@ public class PauseButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pausePanel.gameObject.SetActive(false);
-        pauseB.onClick.AddListener(OpenPause);
-        playB.onClick.AddListener(ClosePause);
+        //pausePanel.gameObject.SetActive(false);
+        //pauseB.onClick.AddListener(OpenPause);
+        //  playB.onClick.AddListener(ClosePause);
     }
 
-    public void OpenPause() { TogglePause();  pausePanel.gameObject.SetActive(true); }
-    public void ClosePause() { TogglePause();  pausePanel.gameObject.SetActive(false); }
+    public void OpenPause() { GameManager.TogglePause();  pausePanel.gameObject.SetActive(true); }
+    public void ClosePause() { GameManager.TogglePause();  pausePanel.gameObject.SetActive(false); }
 }

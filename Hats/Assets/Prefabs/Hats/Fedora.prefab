@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9038880254364742639}
   m_Layer: 0
   m_Name: Fedora
-  m_TagString: Untagged
+  m_TagString: Hat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3561e85cb255f3648a63c48280b43d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
   skipProbability: 0
+  height: 0
+  gmInstance: {fileID: 0}

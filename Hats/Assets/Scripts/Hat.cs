@@ -14,13 +14,8 @@ public class Hat : MonoBehaviour
         Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
         rb.mass = 1;
         BoxCollider2D c = gameObject.AddComponent<BoxCollider2D>();
-        height = gameObject.GetComponent<BoxCollider2D>().bounds.size.y;
-        this.tag = "Hat";
-        if (this.name == "Anvil")
-        {
-            rb.mass = 2;
-            this.tag = "Anvil";
-        }
+        height = c.bounds.size.y;
+        Debug.Log("Hat Height: " + height);
     }
 
     private void Update()

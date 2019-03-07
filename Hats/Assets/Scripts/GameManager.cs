@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -50,11 +51,11 @@ public class GameManager : MonoBehaviour
         paused = false;
     }
 
-    IEnumerator StartGame() 
+    IEnumerator StartGame()
     {
         //spawn player
         playerInstance = Instantiate(playerPrefab) as Player;
-        playerInstance.transform.position = new Vector2(0,-5);
+        playerInstance.transform.position = new Vector2(0, -5);
         playerInstance.gmInstance = this;
 
         //Countdown
@@ -64,11 +65,11 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         Debug.Log("Start!"); //insert Start! here
-        
+
         while (gamePlaying)
         {
             yield return new WaitForSeconds(currentSpeed);
-            SpawnHat(); 
+            SpawnHat();
         }
     }
     void SpawnHat() //spawns hats and anvils (anvils are a type of hat for simplicity)
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
         do
         {
             temp = hatTypes[random.Next(hatTypes.Count)];
-        } while (random.Next(0,1) < temp.skipProbability);
+        } while (random.Next(0, 1) < temp.skipProbability);
 
         //spawn hat
 
@@ -93,8 +94,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Hat");
         numHatsCollected++;
-        spawnPoint.position += new Vector3 (0,hat.height,0);
-        Camera.main.transform.position += new Vector3 (0, hat.height,0);
+        spawnPoint.position += new Vector3(0, hat.height, 0);
+        Camera.main.transform.position += new Vector3(0, hat.height, 0);
         if (numHatsCollected % 10 == 0 && currentSpeed > MAX_SPEED) currentSpeed -= SPEED_DECREMENT;
         if (lastHat == hat)
         {
@@ -112,36 +113,52 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Anvil");
         saveManager.saveGlob.totalAnvilsFallen++;
-        numLives = 0;
+        gamePlaying = false;
     }
     public void HatMissed()
     {
         if (numLives > 0)
         {
-            Debug.Log("Missed Hat");
-            Debug.Log("Lives Left: " + numLives);
+            //Debug.Log("Missed Hat");
+            //Debug.Log("Lives Left: " + numLives);
             numLives--;
         }
     }
     // Update is called once per frame
     void Update()
     {
-        if (numLives == 0 && gamePlaying)
+        if (numLives == 0 || !gamePlaying)
         {
             Debug.Log("Game Over");
             gamePlaying = false;
             EndGame();
-            
+
         }
     }
 
     void EndGame()
     {
         StopAllCoroutines();
+        StartCoroutine("EndGameScroll");
         TestForAchievements();
         NewHighScore();
         saveManager.saveDataToDisk();
         Debug.Log(saveManager.saveGlob.highscore);
+        SceneManager.LoadScene("Title");
+    }
+
+    IEnumerator EndGameScroll()
+    {
+        float t = 0.0f;
+        Vector3 startingPos = Camera.main.transform.position;
+        Transform target = playerInstance.transform;
+        float transitionDuration = numHatsCollected * .5f;
+        while (t < 1.0f)
+        {
+            t += Time.deltaTime * (Time.timeScale / transitionDuration);
+            transform.position = Vector3.Lerp(startingPos, target.position, t);
+            yield return 0;
+        }
     }
 
     void NewHighScore()
@@ -155,7 +172,7 @@ public class GameManager : MonoBehaviour
         saveManager.saveGlob.completedAchievements = achievements;
     }
 
-    public void TogglePause()
+    public static void TogglePause()
     {
 
     }

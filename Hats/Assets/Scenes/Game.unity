@@ -290,6 +290,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702f34e9384cac243bffa5ebce115407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseB: {fileID: 0}
+  playB: {fileID: 0}
+  musicB: {fileID: 0}
+  soundB: {fileID: 0}
+  pausePanel: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,23 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hatTypes:
-  - {fileID: 2128608369886348091, guid: 3bd7c35723876fb4a91c24df106d45b7, type: 3}
-  - {fileID: 2285831321830924068, guid: 46d73c97e2ad1b346869ccaeeac07ccd, type: 3}
-  - {fileID: 5401540314786723210, guid: 1746d87c16a28ad4080b5d35a1c8b812, type: 3}
-  - {fileID: 7780750788698393654, guid: b81e9b162f5eae44e863c939882c9af3, type: 3}
-  - {fileID: 8109266011774291604, guid: ff5757efc8bec024e88a4bcfb7d2527c, type: 3}
-  - {fileID: 5879788509948442989, guid: 02073d409b48e3b49b9e07288bac8c70, type: 3}
-  - {fileID: 4629518336617043520, guid: 8ab0d28cb527c4f4596a1a82142b3f84, type: 3}
-  - {fileID: 4749826040989771540, guid: 2acadd0680008ba4dbe4aab04a3cd85d, type: 3}
-  - {fileID: 9038880254364742639, guid: 3ee4155a314bb9743b8a5a945f3cc2e5, type: 3}
-  - {fileID: 6893845402764141995, guid: f5c178b607caa404babe9daed7e87304, type: 3}
-  - {fileID: 4009895810175294449, guid: 022a186e23e48af43a1e62757bb84039, type: 3}
-  - {fileID: 5427380241123913340, guid: fdcb3f9c67360984195f718f156f9f0b, type: 3}
-  - {fileID: 9121726603347935803, guid: 1c5e2c378e74ef84685390b723782467, type: 3}
-  - {fileID: 7583256598840289048, guid: 103288dfbd8745a4daee154db9208548, type: 3}
-  - {fileID: 901616505306042442, guid: 3d0c22640d774bb4da137170d769209b, type: 3}
-  - {fileID: 8102505117726291793, guid: ab1f27031cb67c042aae5c8f1be1823f, type: 3}
-  - {fileID: 3372278073619727027, guid: 74cf99af30af93540934f689d557988f, type: 3}
+  - {fileID: 8514019311771566570, guid: bf335277913ee854d8122e123d166202, type: 3}
   playerPrefab: {fileID: 4176682267730814751, guid: 967cc099169786a419e95d7396bac3e7,
     type: 3}
   spawnPoint: {fileID: 1610992487}
