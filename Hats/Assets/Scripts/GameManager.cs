@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
         saveManager.saveGlob.completedAchievements = achievements;
     }
 
-    public void TogglePause()
+    public static void TogglePause()
     {
 
     }
