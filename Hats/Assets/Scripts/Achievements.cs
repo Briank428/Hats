@@ -1,15 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
+[System.Serializable]
 public class Achievements
 {
-    public static void AnvilHitLives(int l)
-    {
-
-    }
-    public static void HatCollected(Hat h, int s)
-    {
-
-    }
+    public string name;
+    public string description;
+    public bool achieved;
 }

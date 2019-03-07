@@ -5,17 +5,22 @@ using UnityEngine;
 [System.Serializable]
 public class Hat : MonoBehaviour
 {
-    public Sprite image;
     public float skipProbability;
     public float height;
     public GameManager gmInstance;
 
     private void Start()
     {
-        //height = gameObject.GetComponent<Renderer>().bounds.size.y;
-        Rigidbody2D rb = this.gameObject.AddComponent<Rigidbody2D>();
-        rb.mass = 5;
-        if (this.name == "Anvil") rb.mass = 10;
+        Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
+        rb.mass = 1;
+        BoxCollider2D c = gameObject.AddComponent<BoxCollider2D>();
+        height = gameObject.GetComponent<BoxCollider2D>().bounds.size.y;
+        this.tag = "Hat";
+        if (this.name == "Anvil")
+        {
+            rb.mass = 2;
+            this.tag = "Anvil";
+        }
     }
 
     private void Update()

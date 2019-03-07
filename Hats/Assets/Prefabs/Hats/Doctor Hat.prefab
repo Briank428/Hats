@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9149512683861644852
+--- !u!1 &6018622748909291504
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8130305854404264263}
-  - component: {fileID: 2128608369886348091}
+  - component: {fileID: 3724592435607681631}
+  - component: {fileID: 4749826040989771540}
   m_Layer: 0
-  m_Name: Anvil
+  m_Name: Doctor Hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8130305854404264263
+--- !u!4 &3724592435607681631
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9149512683861644852}
+  m_GameObject: {fileID: 6018622748909291504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.3279088, y: -0.10657778, z: -0.52651745}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,18 +31,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2128608369886348091
+--- !u!114 &4749826040989771540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9149512683861644852}
+  m_GameObject: {fileID: 6018622748909291504}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3561e85cb255f3648a63c48280b43d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skipProbability: 0
+  image: {fileID: 0}
+  skipProbability: 0.25
   height: 0
   gmInstance: {fileID: 0}

@@ -5,12 +5,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public GameManager gmInstance;
-    private string playerName;
     private float height;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.transform.name == "Anvil")
+        Debug.Log("Collision");
+        if (other.transform.tag == "Anvil")
         {
             gmInstance.AnvilHit();
         }
@@ -19,8 +19,12 @@ public class Player : MonoBehaviour
         {
             other.transform.parent = this.transform;
             height += other.transform.gameObject.GetComponent<Hat>().height;
+            GetComponent<BoxCollider2D>().offset = new Vector2(0,other.transform.gameObject.GetComponent<Hat>().height);
+            Destroy(other.gameObject.GetComponent<Rigidbody2D>());
+            Destroy(other.gameObject.GetComponent<Rigidbody2D>());
             other.transform.localPosition = new Vector2(0,height);
-            gmInstance.HatCollected(other.gameObject.GetComponent<Hat>());
+            Hat temp = other.gameObject.GetComponent<Hat>();
+            gmInstance.HatCollected(temp);
         }
 
     } 

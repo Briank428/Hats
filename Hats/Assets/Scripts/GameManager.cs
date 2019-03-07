@@ -10,21 +10,26 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public List<Hat> hatTypes = new List<Hat>();
     public Player playerPrefab;
+    public Transform spawnPoint;
     #endregion
 
     #region consts
-    private const float SPEED_INIT = 2.0f; //initial time between drops
-    private const float MAX_SPEED = 0.1f; //max hat drop speed
+    private const float SPEED_INIT = 0.5f; //initial time between drops
+    private const float MAX_SPEED = 0.5f; //max hat drop speed
     private const float SPEED_DECREMENT = 0.1f;
     #endregion
 
     #region private vars
+    private SaveManager saveManager;
     private float currentSpeed; //stores current time between drops
     private Player playerInstance;
+    [SerializeField]
     private int numHatsCollected;
     private int numLives;
     private Hat lastHat;
     private int hatStreak;
+    private List<Achievements> achievements;
+    private bool gamePlaying;
     #endregion
 
     private static System.Random random = new System.Random();
@@ -32,12 +37,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        saveManager = new SaveManager();
+        achievements = saveManager.saveGlob.completedAchievements;
         numLives = 9;
         currentSpeed = SPEED_INIT;
         StartCoroutine("StartGame");
         gmInstance = this;
         hatStreak = 0;
         lastHat = null;
+        gamePlaying = true;
     }
 
     IEnumerator StartGame()
@@ -45,7 +53,7 @@ public class GameManager : MonoBehaviour
         //spawn player
         playerInstance = Instantiate(playerPrefab) as Player;
         playerInstance.transform.position = new Vector2(0,-5);
-        playerInstance.gmInstance = gmInstance;
+        playerInstance.gmInstance = this;
 
         //Countdown
         for (int i = 3; i >= 1; i--)
@@ -54,8 +62,8 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
         Debug.Log("Start!"); //insert Start! here
-
-        while (numLives != 0)
+        
+        while (gamePlaying)
         {
             yield return new WaitForSeconds(currentSpeed);
             SpawnHat(); 
@@ -74,12 +82,17 @@ public class GameManager : MonoBehaviour
 
         Hat temp2 = Instantiate(temp) as Hat;
         temp2.gmInstance = gmInstance;
-        temp2.transform.position = new Vector2(random.Next(-5,5),5);
+        float width = random.Next(-5, 5);
+        width = 0;
+        temp2.transform.position = spawnPoint.position;
     }
 
     public void HatCollected(Hat hat)
     {
+        Debug.Log("Hat");
         numHatsCollected++;
+        spawnPoint.position += new Vector3 (0,hat.height,0);
+        Camera.main.transform.position += new Vector3 (0, hat.height,0);
         if (numHatsCollected % 10 == 0 && currentSpeed > MAX_SPEED) currentSpeed -= SPEED_DECREMENT;
         if (lastHat == hat)
         {
@@ -90,21 +103,54 @@ public class GameManager : MonoBehaviour
             lastHat = hat;
             hatStreak = 1;
         }
-        Achievements.HatCollected(lastHat, hatStreak);
+        if (hat.name == "Doctor Hat") numLives++;
     }
 
     public void AnvilHit()
     {
-        Achievements.AnvilHitLives(numLives);
+        Debug.Log("Anvil");
+        saveManager.saveGlob.totalAnvilsFallen++;
         numLives = 0;
     }
     public void HatMissed()
     {
-        numLives--;
+        if (numLives > 0)
+        {
+            Debug.Log("Missed Hat");
+            Debug.Log("Lives Left: " + numLives);
+            numLives--;
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        if (numLives == 0) StopAllCoroutines();
+        if (numLives == 0 && gamePlaying)
+        {
+            Debug.Log("Game Over");
+            gamePlaying = false;
+            EndGame();
+            
+        }
     }
+
+    void EndGame()
+    {
+        StopAllCoroutines();
+        TestForAchievements();
+        NewHighScore();
+        saveManager.saveDataToDisk();
+        Debug.Log(saveManager.saveGlob.highscore);
+    }
+
+    void NewHighScore()
+    {
+        if (numHatsCollected > saveManager.saveGlob.highscore) saveManager.saveGlob.highscore = numHatsCollected;
+    }
+
+    void TestForAchievements() //creates and adds achievements to list
+    {
+
+        saveManager.saveGlob.completedAchievements = achievements;
+    }
+
 }
