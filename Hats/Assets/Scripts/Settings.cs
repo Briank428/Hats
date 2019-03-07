@@ -89,15 +89,23 @@ public class Settings : MonoBehaviour
         else { Reset(); infoPanel.gameObject.SetActive(true); isOpen = true; }
         lastClicked = infoB;
     }
-    public void ToggleMusic() {
+    public void ToggleMusic()
+    {
         bool temp = music;
-        if (music) music = false;
-        else music = true;
+        if (music)
+            music = false;
+        else
+            music = true;
+        Debug.Log("Music Before: " + temp + "\nMusic Now: " + music);
     }
-    public void ToggleSound() {
+    public void ToggleSound()
+    {
         bool temp = sound;
-        if (sound) sound = false;
-        else sound = true;
+        if (sound)
+            sound = false;
+        else
+            sound = true;
+        Debug.Log("Sound Before: " + temp + "\nSound Now: " + sound);
     }
     public void StartGame()
     {
