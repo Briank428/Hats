@@ -7,20 +7,19 @@ using UnityEngine.UI;
 public class Settings : MonoBehaviour
 {
     #region vars
+    private bool isOpen;
+    private Button lastClicked;
+    
     public Text title;
+
+    public List<Button> buttons = new List<Button>();
+    
     public Button startB;
     public Button soundB;
     public Button musicB;
     public Button achieveB;
     public Button leaderB;
     public Button infoB;
-    public Button resetB;
-    public Button resetY;
-    public Button resetN;
-    public Button infoC;
-    public Button leaderC;
-    public Button achieveC;
-    public Image resetPanel;
     public Image infoPanel;
     public Image leaderPanel;
     public Image achievePanel;
@@ -31,83 +30,64 @@ public class Settings : MonoBehaviour
     #endregion
     void Start()
     {
+        lastClicked = null;
+        isOpen = false;
         music = true;
         sound = true;
-        resetPanel.gameObject.SetActive(false);
         infoPanel.gameObject.SetActive(false);
         leaderPanel.gameObject.SetActive(false);
         achievePanel.gameObject.SetActive(false);
         startB.onClick.AddListener(StartGame);
         soundB.onClick.AddListener(ToggleSound);
         musicB.onClick.AddListener(ToggleMusic);
-        achieveB.onClick.AddListener(ShowAchieve);
-        leaderB.onClick.AddListener(ShowLeader);
-        infoB.onClick.AddListener(ShowInfo);
-        resetB.onClick.AddListener(ResetCheck);
-        resetY.onClick.AddListener(ResetYes);
-        resetN.onClick.AddListener(ResetNo);
-        leaderC.onClick.AddListener(CloseLeader);
-        infoC.onClick.AddListener(CloseInfo);
-        achieveC.onClick.AddListener(CloseAchieve);
+        achieveB.onClick.AddListener(AchievePanel);
+        leaderB.onClick.AddListener(LeaderPanel);
+        infoB.onClick.AddListener(InfoPanel);
+        buttons.Add(achieveB);
+        buttons.Add(leaderB);
+        buttons.Add(infoB);
     }
-
-    public void ResetCheck() {
-        Debug.Log("Reset Panel");
-        startB.gameObject.SetActive(false);
-        title.gameObject.SetActive(false);
-        resetPanel.gameObject.SetActive(true);
+    public void Reset() {
+        int temp = buttons.IndexOf(lastClicked);
+        if (isOpen && temp == 0) achievePanel.gameObject.SetActive(false);
+        if (isOpen && temp == 1) leaderPanel.gameObject.SetActive(false);
+        if (isOpen && temp == 2) infoPanel.gameObject.SetActive(false);
+        else { title.gameObject.SetActive(false); startB.gameObject.SetActive(false); }
     }
-
-    public void ResetYes()
+    public void AchievePanel()
     {
-        Debug.Log("Resetting");
-        resetPanel.gameObject.SetActive(false);
-        startB.gameObject.SetActive(true);
-        title.gameObject.SetActive(true);
+        if (isOpen && lastClicked == achieveB) {
+            achievePanel.gameObject.SetActive(false);
+            title.gameObject.SetActive(true);
+            startB.gameObject.SetActive(true);
+            isOpen = false;
+        }
+        else { Reset(); achievePanel.gameObject.SetActive(true); isOpen = true; }
+        lastClicked = achieveB;
     }
-    public void ResetNo()
+    public void LeaderPanel()
     {
-        Debug.Log("Not Resetting");
-        resetPanel.gameObject.SetActive(false);
-        startB.gameObject.SetActive(true);
-        title.gameObject.SetActive(true);
+        if (isOpen && lastClicked == leaderB)
+        {
+            leaderPanel.gameObject.SetActive(false);
+            title.gameObject.SetActive(true);
+            startB.gameObject.SetActive(true);
+            isOpen = false;
+        }
+        else { Reset(); leaderPanel.gameObject.SetActive(true); isOpen = true; }
+        lastClicked = leaderB;
     }
-    public void ShowInfo()
+    public void InfoPanel()
     {
-        startB.gameObject.SetActive(false);
-        title.gameObject.SetActive(false);
-        infoPanel.gameObject.SetActive(true);
-    }
-    public void CloseInfo()
-    {
-        startB.gameObject.SetActive(true);
-        title.gameObject.SetActive(true);
-        infoPanel.gameObject.SetActive(false);
-    }
-    public void ShowAchieve()
-    {
-        achievePanel.gameObject.SetActive(true);
-        startB.gameObject.SetActive(false);
-        title.gameObject.SetActive(false);
-    }
-    public void CloseAchieve()
-    {
-        if (true) { }
-        achievePanel.gameObject.SetActive(false);
-        startB.gameObject.SetActive(true);
-        title.gameObject.SetActive(true);
-    }
-    public void ShowLeader()
-    {
-        startB.gameObject.SetActive(false);
-        title.gameObject.SetActive(false);
-        leaderPanel.gameObject.SetActive(true);
-    }
-    public void CloseLeader()
-    {
-        startB.gameObject.SetActive(true);
-        title.gameObject.SetActive(true);
-        leaderPanel.gameObject.SetActive(false);
+        if (isOpen && lastClicked == infoB)
+        {
+            infoPanel.gameObject.SetActive(false);
+            title.gameObject.SetActive(true);
+            startB.gameObject.SetActive(true);
+            isOpen = false;
+        }
+        else { Reset(); infoPanel.gameObject.SetActive(true); isOpen = true; }
+        lastClicked = infoB;
     }
     public void ToggleMusic()
     {
