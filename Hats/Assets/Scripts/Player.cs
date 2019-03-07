@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private GameManager gmInstance;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameManager gmInstance;
+    private string playerName;
+    private float height;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
+        if (other.transform.name == "Anvil")
+        {
+            gmInstance.AnvilHit();
+        }
+  
+        else
+        {
+            other.transform.parent = this.transform;
+            height += other.transform.gameObject.GetComponent<Hat>().height;
+            other.transform.localPosition = new Vector2(0,height);
+            gmInstance.HatCollected(other.gameObject.GetComponent<Hat>());
+        }
 
-    
+    } 
 }
