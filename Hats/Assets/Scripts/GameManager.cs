@@ -132,7 +132,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("Game Over");
             gamePlaying = false;
             EndGame();
-
         }
     }
 
