@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private int hatStreak;
     private List<Achievements> achievements;
     private bool gamePlaying;
+    private bool paused;
     #endregion
 
     private static System.Random random = new System.Random();
@@ -46,9 +47,10 @@ public class GameManager : MonoBehaviour
         hatStreak = 0;
         lastHat = null;
         gamePlaying = true;
+        paused = false;
     }
 
-    IEnumerator StartGame()
+    IEnumerator StartGame() 
     {
         //spawn player
         playerInstance = Instantiate(playerPrefab) as Player;
@@ -151,6 +153,11 @@ public class GameManager : MonoBehaviour
     {
 
         saveManager.saveGlob.completedAchievements = achievements;
+    }
+
+    public void TogglePause()
+    {
+
     }
 
 }
