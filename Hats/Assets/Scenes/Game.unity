@@ -1442,6 +1442,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 4176682267730814751, guid: 967cc099169786a419e95d7396bac3e7,
     type: 3}
   spawnPoint: {fileID: 1610992487}
+  camera1: {fileID: 519420031}
   numHatsCollected: 0
 --- !u!4 &1208219973
 Transform:
