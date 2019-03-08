@@ -11,6 +11,7 @@ public class Settings : MonoBehaviour
     private Button lastClicked;
     
     public Text title;
+    public InputField input;
 
     public List<Button> buttons = new List<Button>();
     
@@ -52,7 +53,8 @@ public class Settings : MonoBehaviour
         if (isOpen && temp == 0) achievePanel.gameObject.SetActive(false);
         if (isOpen && temp == 1) leaderPanel.gameObject.SetActive(false);
         if (isOpen && temp == 2) infoPanel.gameObject.SetActive(false);
-        else { title.gameObject.SetActive(false); startB.gameObject.SetActive(false); }
+        else { title.gameObject.SetActive(false); startB.gameObject.SetActive(false);
+            input.gameObject.SetActive(false);  }
     }
     public void AchievePanel()
     {
@@ -60,6 +62,7 @@ public class Settings : MonoBehaviour
             achievePanel.gameObject.SetActive(false);
             title.gameObject.SetActive(true);
             startB.gameObject.SetActive(true);
+            input.gameObject.SetActive(true);
             isOpen = false;
         }
         else { Reset(); achievePanel.gameObject.SetActive(true); isOpen = true; }
@@ -72,6 +75,7 @@ public class Settings : MonoBehaviour
             leaderPanel.gameObject.SetActive(false);
             title.gameObject.SetActive(true);
             startB.gameObject.SetActive(true);
+            input.gameObject.SetActive(true);
             isOpen = false;
         }
         else { Reset(); leaderPanel.gameObject.SetActive(true); isOpen = true; }
@@ -84,6 +88,7 @@ public class Settings : MonoBehaviour
             infoPanel.gameObject.SetActive(false);
             title.gameObject.SetActive(true);
             startB.gameObject.SetActive(true);
+            input.gameObject.SetActive(true);
             isOpen = false;
         }
         else { Reset(); infoPanel.gameObject.SetActive(true); isOpen = true; }
@@ -110,10 +115,5 @@ public class Settings : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("Game");
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
