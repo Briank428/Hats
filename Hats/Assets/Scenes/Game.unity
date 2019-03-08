@@ -1443,6 +1443,7 @@ MonoBehaviour:
     type: 3}
   spawnPoint: {fileID: 1610992487}
   camera1: {fileID: 519420031}
+  counter: {fileID: 1419486606}
   numHatsCollected: 0
 --- !u!4 &1208219973
 Transform:

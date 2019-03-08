@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public Transform spawnPoint;
     public Camera camera1;
     public static GameManager gm;
+    public Text counter;
+
     #endregion
 
     #region consts
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        counter.text = "0";
         gm = this;
         saveManager = new SaveManager();
         achievements = saveManager.saveGlob.completedAchievements;
@@ -94,6 +97,7 @@ public class GameManager : MonoBehaviour
     public void HatCollected(Hat hat)
     {
         numHatsCollected++;
+        counter.text = "" + numHatsCollected;
         spawnPoint.position += new Vector3(0, hat.height, 0);
         camera1.transform.position += new Vector3(0, hat.height, 0);
         if (numHatsCollected % 10 == 0 && currentSpeed > MAX_SPEED + SPEED_DECREMENT)
