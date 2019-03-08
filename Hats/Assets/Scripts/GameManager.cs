@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     private Hat lastHat;
     private int hatStreak;
     private List<Achievements> achievements;
+    private List<Leaderboard> leaderboard;
     private bool gamePlaying;
     private bool paused;
     private List<Image> lives;
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
         gm = this;
         saveManager = new SaveManager();
         achievements = saveManager.saveGlob.completedAchievements;
+        leaderboard = saveManager.saveGlob.leaderboard;
         numLives = 9;
         currentSpeed = SPEED_INIT;
         StartCoroutine("StartGame");
@@ -148,7 +150,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
@@ -164,7 +165,7 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine("EndGameScroll");
         TestForAchievements();
-        NewHighScore();
+        Leaderboard();
         saveManager.saveDataToDisk();
         Debug.Log(saveManager.saveGlob.highscore);
     }
@@ -184,14 +185,28 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Title");
     }
 
-    void NewHighScore()
+    void Leaderboard()
     {
         if (numHatsCollected > saveManager.saveGlob.highscore) saveManager.saveGlob.highscore = numHatsCollected;
+        try
+        {
+            for (int i = 0; i < leaderboard.Count; i++)
+            {
+                Leaderboard l = leaderboard[i];
+                if (l == null || numHatsCollected > l.score) leaderboard.Insert(i, new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
+            }
+            leaderboard.RemoveAt(leaderboard.Count - 1);
+        }
+        catch
+        {
+            leaderboard.Add(new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
+        }
+        saveManager.saveGlob.leaderboard = leaderboard;
     }
 
     void TestForAchievements() //creates and adds achievements to list
     {
-
+        if (numLives == 9) achievements.Add(new Achievements());
         saveManager.saveGlob.completedAchievements = achievements;
     }
 
