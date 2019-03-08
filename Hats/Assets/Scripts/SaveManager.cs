@@ -10,8 +10,9 @@ public class SaveManager
     public SaveManager()
     {
         this.savePath = Application.persistentDataPath + "/save.dat";
+        Debug.Log(savePath);
         this.saveGlob = new SaveGlob();
-        this.loadDataFromDisk();
+        this.loadDataFromDisk();   
     }
     /**
      * Saves the save data to the disk

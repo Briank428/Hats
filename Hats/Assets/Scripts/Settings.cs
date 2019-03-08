@@ -48,6 +48,7 @@ public class Settings : MonoBehaviour
         buttons.Add(leaderB);
         buttons.Add(infoB);
     }
+
     public void Reset() {
         int temp = buttons.IndexOf(lastClicked);
         if (isOpen && temp == 0) achievePanel.gameObject.SetActive(false);

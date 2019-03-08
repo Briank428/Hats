@@ -32,11 +32,12 @@ public class GameManager : MonoBehaviour
     private int numLives;
     private Hat lastHat;
     private int hatStreak;
-    private List<Achievements> achievements;
+    private Hashtable achievements;
     private List<Leaderboard> leaderboard;
     private bool gamePlaying;
     private bool paused;
     private List<Image> lives;
+    private List<string> hatsCollected;
     #endregion
 
     private static System.Random random = new System.Random();
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         gamePlaying = true;
         paused = false;
         lives = PauseButton.GetLives();
+        hatsCollected = new List<string>();
     }
 
     IEnumerator StartGame()
@@ -98,6 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void HatCollected(Hat hat)
     {
+        hatsCollected.Add(hat.name);
         numHatsCollected++;
         counter.text = "" + numHatsCollected;
         spawnPoint.position += new Vector3(0, hat.height, 0);
@@ -110,6 +113,7 @@ public class GameManager : MonoBehaviour
         if (lastHat == hat)
         {
             hatStreak++;
+            if (hatStreak == 7 && hat.name == "Top Hat") achievements.Add("Four score and 7 hats ago", "Catch 7 Top Hats in a row");
         }
         else
         {
@@ -119,12 +123,15 @@ public class GameManager : MonoBehaviour
         if (hat.name == "Doctor Hat" && numLives < 9)
         {
             numLives++;
+            saveManager.saveGlob.totalDoctorsHats++;
+            achievements.Add("First Aid", "Heal yourself");
             lives[numLives].gameObject.SetActive(true);
         }
     }
 
     public void AnvilHit()
     {
+        achievements.Add("Ouch", "Get hit with an anvil");
         Debug.Log("Anvil");
         saveManager.saveGlob.totalAnvilsFallen++;
         Debug.Log("Game Over");
@@ -206,7 +213,24 @@ public class GameManager : MonoBehaviour
 
     void TestForAchievements() //creates and adds achievements to list
     {
-        if (numLives == 9) achievements.Add(new Achievements());
+        if (numLives == 9) achievements.Add("Nine Lives", "Die with all nine lives remaining");
+
+        if (hatsCollected.Contains("Beret")) achievements.Add("Where zey make ze toast", "Catch the Beret");
+        if (hatsCollected.Contains("Fez")) achievements.Add("Fezzes are cool", "Catch the Fez");
+        if (hatsCollected.Contains("Ushanka")) achievements.Add("For Mother Russia", "Catch the Ushanka");
+        if (hatsCollected.Contains("Soda Hat")) achievements.Add("Game Day", "Catch the Soda Hat");
+        if (hatsCollected.Contains("Graduation Cap")) achievements.Add("Graduation Day", "Catch the Graduation Cap");
+
+        if (saveManager.saveGlob.totalAnvilsFallen > 10) achievements.Add("Anvil Magnet", "Get hit with 10 anvils");
+        if (saveManager.saveGlob.totalAnvilsFallen > 50) achievements.Add("Masochist", "Get hit with 50 anvils");
+        if (saveManager.saveGlob.totalDoctorsHats > 10) achievements.Add("Medic", "Heal yourself 10 times");
+        if (saveManager.saveGlob.totalDoctorsHats > 25) achievements.Add("Doctor", "Heal yourself 25 times");
+
+        if (numHatsCollected > 10) achievements.Add("10 Stack", "Catch 10 hats in a game");
+        if (numHatsCollected > 25) achievements.Add("25 Stack", "Catch 25 hats in a game");
+        if (numHatsCollected > 50) achievements.Add("50 Stack", "Catch 50 hats in a game");
+        if (numHatsCollected > 100) achievements.Add("100 Stack", "Catch 100 hats in a game");
+
         saveManager.saveGlob.completedAchievements = achievements;
     }
 
