@@ -325,6 +325,10 @@ MonoBehaviour:
   infoPanel: {fileID: 700160307}
   leaderPanel: {fileID: 1247711860}
   achievePanel: {fileID: 430858247}
+  onMusic: {fileID: 21300000, guid: cfaf2b750cbdba2419f6bad5df0e0f67, type: 3}
+  offMusic: {fileID: 21300000, guid: c5add3db09289d649a64ca02a7e9e434, type: 3}
+  onSound: {fileID: 21300000, guid: 12f7edef46041604ea365cb5cc5586f0, type: 3}
+  offSound: {fileID: 21300000, guid: f25ccbd5105672642afc720d4c9f7e65, type: 3}
   music: 0
   sound: 0
 --- !u!1 &430858246

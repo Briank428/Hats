@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     #region consts
     private const float SPEED_INIT = 1.0f; //initial time between drops
     private const float MAX_SPEED = 0.1f; //max hat drop speed
-    private const float SPEED_DECREMENT = 0.2f;
+    private const float SPEED_DECREMENT = 0.15f;
     #endregion
 
     #region private vars
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     private int numLives;
     private Hat lastHat;
     private int hatStreak;
-    private Hashtable achievements;
+    private List<Achievements> achievements;
     private List<Leaderboard> leaderboard;
     private bool gamePlaying;
     private bool paused;
@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
             SpawnHat();
         }
     }
+
     void SpawnHat() //spawns hats and anvils (anvils are a type of hat for simplicity)
     {
         //choose hat to spawn
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour
         if (lastHat == hat)
         {
             hatStreak++;
-            if (hatStreak == 7 && hat.name == "Top Hat") achievements.Add("Four score and 7 hats ago", "Catch 7 Top Hats in a row");
+            if (hatStreak == 7 && hat.name == "Top Hat") achievementsAdd("Four score and 7 hats ago", "Catch 7 Top Hats in a row");
         }
         else
         {
@@ -124,20 +125,21 @@ public class GameManager : MonoBehaviour
         {
             numLives++;
             saveManager.saveGlob.totalDoctorsHats++;
-            achievements.Add("First Aid", "Heal yourself");
+            achievementsAdd("First Aid", "Heal yourself");
             lives[numLives].gameObject.SetActive(true);
         }
     }
 
     public void AnvilHit()
     {
-        achievements.Add("Ouch", "Get hit with an anvil");
+        achievementsAdd("Ouch", "Get hit with an anvil");
         Debug.Log("Anvil");
         saveManager.saveGlob.totalAnvilsFallen++;
         Debug.Log("Game Over");
         gamePlaying = false;
         EndGame(); ;
     }
+
     public void HatMissed()
     {
         lives[numLives - 1].gameObject.SetActive(false);
@@ -154,6 +156,7 @@ public class GameManager : MonoBehaviour
             EndGame();
         }
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -174,7 +177,6 @@ public class GameManager : MonoBehaviour
         TestForAchievements();
         Leaderboard();
         saveManager.saveDataToDisk();
-        Debug.Log(saveManager.saveGlob.highscore);
     }
 
     IEnumerator EndGameScroll()
@@ -189,12 +191,12 @@ public class GameManager : MonoBehaviour
             camera1.transform.position = Vector3.Lerp(startingPos, target, t);
             yield return 0;
         }
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Title");
     }
 
     void Leaderboard()
     {
-        if (numHatsCollected > saveManager.saveGlob.highscore) saveManager.saveGlob.highscore = numHatsCollected;
         try
         {
             for (int i = 0; i < leaderboard.Count; i++)
@@ -213,25 +215,36 @@ public class GameManager : MonoBehaviour
 
     void TestForAchievements() //creates and adds achievements to list
     {
-        if (numLives == 9) achievements.Add("Nine Lives", "Die with all nine lives remaining");
+        if (numLives == 9) achievementsAdd("Nine Lives", "Die with all nine lives remaining");
 
-        if (hatsCollected.Contains("Beret")) achievements.Add("Where zey make ze toast", "Catch the Beret");
-        if (hatsCollected.Contains("Fez")) achievements.Add("Fezzes are cool", "Catch the Fez");
-        if (hatsCollected.Contains("Ushanka")) achievements.Add("For Mother Russia", "Catch the Ushanka");
-        if (hatsCollected.Contains("Soda Hat")) achievements.Add("Game Day", "Catch the Soda Hat");
-        if (hatsCollected.Contains("Graduation Cap")) achievements.Add("Graduation Day", "Catch the Graduation Cap");
+        if (hatsCollected.Contains("Beret")) achievementsAdd("Where zey make ze toast", "Catch the Beret");
+        if (hatsCollected.Contains("Fez")) achievementsAdd("Fezzes are cool", "Catch the Fez");
+        if (hatsCollected.Contains("Ushanka")) achievementsAdd("For Mother Russia", "Catch the Ushanka");
+        if (hatsCollected.Contains("Soda Hat")) achievementsAdd("Game Day", "Catch the Soda Hat");
+        if (hatsCollected.Contains("Graduation Cap")) achievementsAdd("Graduation Day", "Catch the Graduation Cap");
 
-        if (saveManager.saveGlob.totalAnvilsFallen > 10) achievements.Add("Anvil Magnet", "Get hit with 10 anvils");
-        if (saveManager.saveGlob.totalAnvilsFallen > 50) achievements.Add("Masochist", "Get hit with 50 anvils");
-        if (saveManager.saveGlob.totalDoctorsHats > 10) achievements.Add("Medic", "Heal yourself 10 times");
-        if (saveManager.saveGlob.totalDoctorsHats > 25) achievements.Add("Doctor", "Heal yourself 25 times");
+        if (saveManager.saveGlob.totalAnvilsFallen > 10) achievementsAdd("Anvil Magnet", "Get hit with 10 anvils");
+        if (saveManager.saveGlob.totalAnvilsFallen > 50) achievementsAdd("Masochist", "Get hit with 50 anvils");
+        if (saveManager.saveGlob.totalDoctorsHats > 10) achievementsAdd("Medic", "Heal yourself 10 times");
+        if (saveManager.saveGlob.totalDoctorsHats > 25) achievementsAdd("Doctor", "Heal yourself 25 times");
 
-        if (numHatsCollected > 10) achievements.Add("10 Stack", "Catch 10 hats in a game");
-        if (numHatsCollected > 25) achievements.Add("25 Stack", "Catch 25 hats in a game");
-        if (numHatsCollected > 50) achievements.Add("50 Stack", "Catch 50 hats in a game");
-        if (numHatsCollected > 100) achievements.Add("100 Stack", "Catch 100 hats in a game");
+        if (numHatsCollected > 10) achievementsAdd("10 Stack", "Catch 10 hats in a game");
+        if (numHatsCollected > 25) achievementsAdd("25 Stack", "Catch 25 hats in a game");
+        if (numHatsCollected > 50) achievementsAdd("50 Stack", "Catch 50 hats in a game");
+        if (numHatsCollected > 100) achievementsAdd("100 Stack", "Catch 100 hats in a game");
 
         saveManager.saveGlob.completedAchievements = achievements;
+    }
+
+    public bool achievementsAdd(string n, string s)
+    {
+        Achievements temp = new Achievements(n,s);
+        foreach(Achievements a in achievements)
+        {
+            if (temp == a) return false;
+        }
+        achievements.Add(temp);
+        return true;
     }
 
     public static void TogglePause()

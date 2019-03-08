@@ -5,14 +5,13 @@ using System.Collections.Generic;
 public class SaveGlob
 {
     public int totalAnvilsFallen;
-    public int highscore;
-    public Hashtable completedAchievements;
+    public List<Achievements> completedAchievements;
     public List<Leaderboard> leaderboard;
     public int totalDoctorsHats;
+
     public SaveGlob()
     {
-        completedAchievements = new Hashtable();
-        highscore = 0;
+        completedAchievements = new List<Achievements>();
         totalAnvilsFallen = 0;
         leaderboard = new List<Leaderboard>();
         totalDoctorsHats = 0;

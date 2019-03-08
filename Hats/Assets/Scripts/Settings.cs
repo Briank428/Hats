@@ -25,6 +25,11 @@ public class Settings : MonoBehaviour
     public Image leaderPanel;
     public Image achievePanel;
 
+    public Sprite onMusic;
+    public Sprite offMusic;
+    public Sprite onSound;
+    public Sprite offSound;
+
     public bool music;
     public bool sound;
 
@@ -34,7 +39,7 @@ public class Settings : MonoBehaviour
         lastClicked = null;
         isOpen = false;
         music = true;
-        sound = true;
+        sound = false;
         infoPanel.gameObject.SetActive(false);
         leaderPanel.gameObject.SetActive(false);
         achievePanel.gameObject.SetActive(false);
@@ -99,19 +104,29 @@ public class Settings : MonoBehaviour
     {
         bool temp = music;
         if (music)
+        {
             music = false;
+            musicB.image.sprite = offMusic;
+        }
         else
+        {
             music = true;
-        Debug.Log("Music Before: " + temp + "\nMusic Now: " + music);
+            musicB.image.sprite = onMusic;
+        }
     }
     public void ToggleSound()
     {
         bool temp = sound;
         if (sound)
+        {
             sound = false;
+            soundB.image.sprite = offSound;
+        }
         else
+        {
             sound = true;
-        Debug.Log("Sound Before: " + temp + "\nSound Now: " + sound);
+            soundB.image.sprite = onSound;
+        }
     }
     public void StartGame()
     {

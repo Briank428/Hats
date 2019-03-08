@@ -28,11 +28,4 @@ public class Hat : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (tag == "Anvil" && (collision.gameObject.tag == "Hat" || collision.gameObject.tag == "Player"))
-        {
-            Destroy(collision.gameObject);
-        }
-    }
 }
