@@ -16,14 +16,23 @@ public class Hat : MonoBehaviour
         BoxCollider2D c = gameObject.AddComponent<BoxCollider2D>();
         height = c.bounds.size.y;
         Debug.Log("Hat Height: " + height);
+        gmInstance = GameManager.gm;
     }
 
     private void Update()
     {
-        if (transform.localPosition.y < -5)
+        if (transform.position.y < Camera.main.transform.position.y - 10)
         {
             gmInstance.HatMissed();
-            Destroy(this);
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (tag == "Anvil" && (collision.gameObject.tag == "Hat" || collision.gameObject.tag == "Player"))
+        {
+            Destroy(collision.gameObject);
         }
     }
 }

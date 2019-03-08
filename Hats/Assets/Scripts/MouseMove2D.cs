@@ -15,9 +15,8 @@ public class MouseMove2D : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
-        mousePosition = new Vector3(Input.mousePosition.x,0,0);
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);        
+    {
+        Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(mouse.x, transform.position.y, transform.position.z);
     }
 }
