@@ -16,15 +16,6 @@ public class PauseButton : MonoBehaviour
 
     private static List<Image> lives = new List<Image>();
 
-    public Image life1;
-    public Image life2;
-    public Image life3;
-    public Image life4;
-    public Image life5;
-    public Image life6;
-    public Image life7;
-    public Image life8;
-    public Image life9;
 
     public Button pauseB;
     public Button playB;
@@ -36,8 +27,6 @@ public class PauseButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lives.Add(life1); lives.Add(life2); lives.Add(life3); lives.Add(life4);
-        lives.Add(life5); lives.Add(life6); lives.Add(life7); lives.Add(life8); lives.Add(life9);
         if (!music) musicB.image.sprite = offMusic;
         if (!sound) soundB.image.sprite = offSound;
         pausePanel.gameObject.SetActive(false);
@@ -51,6 +40,7 @@ public class PauseButton : MonoBehaviour
     public void OpenPause() { GameManager.TogglePause();  pausePanel.gameObject.SetActive(true); pauseB.gameObject.SetActive(false);  }
     public void ClosePause() { GameManager.TogglePause();  pausePanel.gameObject.SetActive(false); pauseB.gameObject.SetActive(true);  }
     public void SceneChange() { SceneManager.LoadScene("Title"); }
+
     public void ToggleMusic(){
         bool temp = music;
         if (music) { music = false; musicB.image.sprite = offMusic; }
@@ -61,7 +51,5 @@ public class PauseButton : MonoBehaviour
         if (sound) { sound = false; soundB.image.sprite = offSound; }
         else { sound = true; soundB.image.sprite = onSound; }
     }
-    public static List<Image> GetLives() {
-        return lives;
-    }
+
 }

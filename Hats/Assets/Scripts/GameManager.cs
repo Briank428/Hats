@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public Camera camera1;
     public static GameManager gm;
     public Text counter;
+    public List<Image> lives;
 
     #endregion
 
@@ -36,7 +37,6 @@ public class GameManager : MonoBehaviour
     private List<Leaderboard> leaderboard;
     private bool gamePlaying;
     private bool paused;
-    private List<Image> lives;
     private List<string> hatsCollected;
     #endregion
 
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         lastHat = null;
         gamePlaying = true;
         paused = false;
-        lives = PauseButton.GetLives();
+        foreach (Image i in lives) i.gameObject.SetActive(true);
         hatsCollected = new List<string>();
     }
 
