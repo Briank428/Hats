@@ -22,14 +22,15 @@ public class Player : MonoBehaviour
         {
             other.transform.parent = this.transform;
             height += other.transform.gameObject.GetComponent<Hat>().height;
-            Debug.Log(height);
             GetComponent<BoxCollider2D>().offset = new Vector2(0, height);
             Destroy(other.gameObject.GetComponent<Rigidbody2D>());
             Destroy(other.gameObject.GetComponent<BoxCollider2D>());
             other.gameObject.tag = "Player";
             other.transform.localPosition = new Vector2(0, height);
+            other.transform.localRotation = Quaternion.identity;
             Hat temp = other.gameObject.GetComponent<Hat>();
             gmInstance.HatCollected(temp);
+            other.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = gmInstance.numHatsCollected;
             Destroy(other.gameObject.GetComponent<Hat>());
 
         }

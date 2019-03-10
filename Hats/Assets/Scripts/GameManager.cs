@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
     public Camera camera1;
     public static GameManager gm;
     public Text counter;
+    public Text life;
     public List<Image> lives;
+    public int numHatsCollected;
 
     #endregion
 
     #region consts
-    private const float SPEED_INIT = 1.0f; //initial time between drops
+    private const float SPEED_INIT = 0.8f; //initial time between drops
     private const float MAX_SPEED = 0.20f; //max hat drop speed
     private const float SPEED_DECREMENT = 0.05f;
     #endregion
@@ -29,7 +31,6 @@ public class GameManager : MonoBehaviour
     private float currentSpeed; //stores current time between drops
     private Player playerInstance;
     [SerializeField]
-    private int numHatsCollected;
     private int numLives;
     private Hat lastHat;
     private int hatStreak;
@@ -75,13 +76,32 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log("Start!"); //insert Start! here
 
-        while (gamePlaying)
+        if (PlayerPrefs.GetString("Name") == "USE_4_TEST")
         {
-            yield return new WaitForSeconds(currentSpeed);
-            SpawnHat();
+            StartCoroutine(SpawnAllHats());
+        }
+        else
+        {
+            while (gamePlaying)
+            {
+                yield return new WaitForSeconds(currentSpeed);
+                SpawnHat();
+            }
         }
     }
 
+    IEnumerator SpawnAllHats()
+    {
+        foreach(Hat h in hatTypes)
+        {
+            numLives = 9;
+            Hat temp2 = Instantiate(h) as Hat;
+            float width = 0;
+            spawnPoint.position = new Vector2(width, spawnPoint.position.y);
+            temp2.transform.position = spawnPoint.position;
+            yield return new WaitForSeconds(.5f);
+        }
+    }
     void SpawnHat() //spawns hats and anvils (anvils are a type of hat for simplicity)
     {
         //choose hat to spawn
@@ -181,6 +201,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EndGameScroll()
     {
+        foreach (Image life in lives) life.gameObject.SetActive(false);
+        life.gameObject.SetActive(false);
         float t = 0.0f;
         Vector3 startingPos = camera1.transform.position;
         Vector3 target = new Vector3(playerInstance.transform.position.x, playerInstance.transform.position.y, camera1.transform.position.z);

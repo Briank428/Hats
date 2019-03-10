@@ -13,11 +13,11 @@ public class Hat : MonoBehaviour
     {
         Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
         rb.mass = 1;
-        BoxCollider2D c = gameObject.AddComponent<BoxCollider2D>();
+        BoxCollider2D c = gameObject.GetComponent<BoxCollider2D>();
         height = c.bounds.size.y;
-        Debug.Log("Hat Height: " + height);
         gmInstance = GameManager.gm;
         name = name.Remove(name.IndexOf("(Clone)"));
+        Debug.Log(name);
     }
 
     private void Update()
