@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
 
     #region consts
     private const float SPEED_INIT = 1.0f; //initial time between drops
-    private const float MAX_SPEED = 0.1f; //max hat drop speed
-    private const float SPEED_DECREMENT = 0.15f;
+    private const float MAX_SPEED = 0.20f; //max hat drop speed
+    private const float SPEED_DECREMENT = 0.05f;
     #endregion
 
     #region private vars
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
             numLives++;
             saveManager.saveGlob.totalDoctorsHats++;
             achievementsAdd("First Aid", "Heal yourself");
-            lives[numLives].gameObject.SetActive(true);
+            lives[numLives - 1].gameObject.SetActive(true);
         }
     }
 

@@ -17,11 +17,12 @@ public class Hat : MonoBehaviour
         height = c.bounds.size.y;
         Debug.Log("Hat Height: " + height);
         gmInstance = GameManager.gm;
+        name = name.Remove(name.IndexOf("(Clone)"));
     }
 
     private void Update()
     {
-        if (transform.position.y < Camera.main.transform.position.y - 10)
+        if (this.tag == "Hat" && transform.position.y < Camera.main.transform.position.y - 10)
         {
             gmInstance.HatMissed();
             Destroy(this.gameObject);

@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc8773c6daedb4e4f970600af3940e69, type: 2}
+  - {fileID: 2100000, guid: a1716696b59d16f49acaf3c67d142d38, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88,8 +88,8 @@ GameObject:
   - component: {fileID: 4344800384136762126}
   - component: {fileID: 8514019311771566570}
   m_Layer: 0
-  m_Name: TestAnvil
-  m_TagString: Anvil
+  m_Name: TestDoc
+  m_TagString: Hat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
