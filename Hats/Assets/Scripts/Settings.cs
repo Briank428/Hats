@@ -10,11 +10,9 @@ public class Settings : MonoBehaviour
     private bool isOpen;
     private Button lastClicked;
     
+    public List<Button> buttons = new List<Button>();
     public Text title;
     public InputField input;
-
-    public List<Button> buttons = new List<Button>();
-    
     public Button startB;
     public Button soundB;
     public Button musicB;
@@ -23,6 +21,7 @@ public class Settings : MonoBehaviour
     public Button infoB;
     public Image infoPanel;
     public Image leaderPanel;
+    public Text leaderText;
     public Image achievePanel;
 
     public Sprite onMusic;
@@ -30,8 +29,8 @@ public class Settings : MonoBehaviour
     public Sprite onSound;
     public Sprite offSound;
 
-    public bool music;
-    public bool sound;
+    private bool music;
+    private bool sound;
 
     #endregion
     void Start()
@@ -39,7 +38,7 @@ public class Settings : MonoBehaviour
         lastClicked = null;
         isOpen = false;
         music = true;
-        sound = false;
+        sound = true;
         infoPanel.gameObject.SetActive(false);
         leaderPanel.gameObject.SetActive(false);
         achievePanel.gameObject.SetActive(false);
@@ -52,6 +51,7 @@ public class Settings : MonoBehaviour
         buttons.Add(achieveB);
         buttons.Add(leaderB);
         buttons.Add(infoB);
+        Leaderboard();
     }
 
     public void Reset() {
@@ -130,6 +130,21 @@ public class Settings : MonoBehaviour
     }
     public void StartGame()
     {
+        MusicFX.sound = sound; Debug.Log("Sound: " + sound);
+        MusicFX.music = music; Debug.Log("Music: " + music);
         SceneManager.LoadScene("Game");
+    }
+    public void Leaderboard()
+    {
+        SaveManager saveM = new SaveManager();
+        saveM.loadDataFromDisk();
+        List<Leaderboard> leaderboards = saveM.saveGlob.leaderboard;
+        Debug.Log("LeaderCount: " + leaderboards.Count);
+        /*leaderText.text = "   \tName \t\tScore\n" +
+            "1. \t" + leaderboards[0].GetName() + "\t\t" + leaderboards[0].GetScore() +
+            "\n2. \t" + leaderboards[1].GetName() + "\t\t" + leaderboards[1].GetScore() +
+            "\n3. \t" + leaderboards[2].GetName() + "\t\t" + leaderboards[2].GetScore() +
+            "\n4. \t" + leaderboards[3].GetName() + "\t\t" + leaderboards[3].GetScore() +
+            "\n5. \t" + leaderboards[4].GetName() + "\t\t" + leaderboards[4].GetScore();*/
     }
 }

@@ -15,11 +15,14 @@ public class Player : MonoBehaviour
     {
         if (other.transform.tag == "Anvil")
         {
+            if (MusicFX.sound) { other.gameObject.GetComponent<AudioSource>().Play(0); Debug.Log("Anvil"); }
+            if (MusicFX.music) { this.GetComponent<AudioSource>().Stop(); }
             gmInstance.AnvilHit();
         }
 
         else
         {
+            if (MusicFX.sound) other.gameObject.GetComponent<AudioSource>().Play(0);
             other.transform.parent = this.transform;
             height += other.transform.gameObject.GetComponent<Hat>().height;
             GetComponent<BoxCollider2D>().offset = new Vector2(0, height);

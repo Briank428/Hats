@@ -66,7 +66,8 @@ public class GameManager : MonoBehaviour
     {
         //spawn player
         playerInstance = Instantiate(playerPrefab) as Player;
-        playerInstance.transform.position = new Vector2(0, -5);
+        playerInstance.transform.position = new Vector2(0, -10);
+        if (MusicFX.music) playerInstance.gameObject.GetComponent<AudioSource>().Play();
 
         //Countdown
         for (int i = 3; i >= 1; i--)
@@ -219,20 +220,29 @@ public class GameManager : MonoBehaviour
 
     void Leaderboard()
     {
-        try
-        {
+        if (leaderboard.Count == 0) leaderboard.Add(new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
+        if (leaderboard.Count == 5) {
+            bool inserted = false;
             for (int i = 0; i < leaderboard.Count; i++)
             {
-                Leaderboard l = leaderboard[i];
-                if (l == null || numHatsCollected > l.score) leaderboard.Insert(i, new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
+                Leaderboard place = leaderboard[i];
+                if (place.GetScore() < numHatsCollected) { leaderboard.Insert(i, new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected)); inserted = true;  }
             }
-            leaderboard.RemoveAt(leaderboard.Count - 1);
+            if (!inserted) leaderboard.Add(new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
         }
-        catch
+        else
         {
-            leaderboard.Add(new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
+            bool inserted = false;
+            for (int i = 0; i < leaderboard.Count; i++)
+            {
+                Leaderboard place = leaderboard[i];
+                if (place.GetScore() < numHatsCollected) { leaderboard.Insert(i, new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected)); inserted = true;  }
+            }
+            if (inserted) leaderboard.RemoveAt(5);
         }
+        Debug.Log("Leader: " + leaderboard.Count);
         saveManager.saveGlob.leaderboard = leaderboard;
+        Debug.Log("Leader: " + leaderboard.Count);
     }
 
     void TestForAchievements() //creates and adds achievements to list
@@ -285,5 +295,8 @@ public class GameManager : MonoBehaviour
 
         }
     }
-
+    public Camera GetCamera()
+    {
+        return camera1;
+    }
 }

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class PauseButton : MonoBehaviour
 {
-    public bool music;
-    public bool sound;
+    private bool music;
+    private bool sound;
 
     public Sprite onMusic;
     public Sprite offMusic;
@@ -16,7 +16,7 @@ public class PauseButton : MonoBehaviour
 
     private static List<Image> lives = new List<Image>();
 
-
+    public Player kyle;
     public Button pauseB;
     public Button playB;
     public Button musicB;
@@ -27,6 +27,8 @@ public class PauseButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        music = MusicFX.music;
+        sound = MusicFX.sound;
         if (!music) musicB.image.sprite = offMusic;
         if (!sound) soundB.image.sprite = offSound;
         pausePanel.gameObject.SetActive(false);
@@ -43,8 +45,10 @@ public class PauseButton : MonoBehaviour
 
     public void ToggleMusic(){
         bool temp = music;
-        if (music) { music = false; musicB.image.sprite = offMusic; }
-        else { music = true; musicB.image.sprite = onMusic; }
+        if (music) { music = false; musicB.image.sprite = offMusic;
+            Debug.Log("pause");  kyle.GetComponent<AudioSource>().Pause(); }
+        else { music = true; musicB.image.sprite = onMusic;
+            Debug.Log("play");  kyle.GetComponent<AudioSource>().Play(0); }
     }
     public void ToggleSound() {
         bool temp = sound;

@@ -10,4 +10,6 @@ public class Leaderboard
         name = n;
         score = s;
     }
+    public string GetName() { return name; }
+    public int GetScore() { return score;  }
 }
