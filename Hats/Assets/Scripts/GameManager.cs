@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
         saveManager.saveGlob.totalAnvilsFallen++;
         Debug.Log("Game Over");
         gamePlaying = false;
-        EndGame(); ;
+        EndGame(); 
     }
 
     public void HatMissed()
@@ -195,9 +195,9 @@ public class GameManager : MonoBehaviour
         GameObject[] hatsRemaining = GameObject.FindGameObjectsWithTag("Hat");
         foreach (GameObject c in hatsRemaining) Destroy(c.gameObject);
         StopAllCoroutines();
-        StartCoroutine("EndGameScroll");
         TestForAchievements();
         Leaderboard();
+        StartCoroutine("EndGameScroll");
     }
 
     IEnumerator EndGameScroll()
@@ -225,12 +225,20 @@ public class GameManager : MonoBehaviour
         if (leaderboard.Count == 0) leaderboard.Add(currentScore);
         else
         {
-            for (int i = 0; i < leaderboard.Count; i++)
+            for (int i = 0; i < 5; i++)
             {
-                Leaderboard temp = leaderboard[i];
-                if (currentScore > temp) leaderboard.Insert(i,currentScore);
+                try
+                {
+                    Leaderboard temp = leaderboard[i];
+                    if (currentScore > temp)
+                    {
+                        leaderboard.Insert(i, currentScore);
+                        break;
+                    }
+                }
+                catch { break;  }
             }
-            //if (leaderboard.Count == 6) leaderboard.RemoveAt(5);
+            if(leaderboard.Count > 5) leaderboard.RemoveRange(5, leaderboard.Count - 5);
         }
         Debug.Log("Leader: " + leaderboard.Count);
         saveManager.saveGlob.leaderboard = leaderboard;
@@ -289,7 +297,6 @@ public class GameManager : MonoBehaviour
             gm.paused = true;
             Time.timeScale = 0;
             gm.playerInstance.GetComponent<MouseMove2D>().enabled = false;
-
         }
     }
     public Camera GetCamera()

@@ -140,11 +140,26 @@ public class Settings : MonoBehaviour
         SaveManager saveM = new SaveManager();
         List<Leaderboard> leaderboards = saveM.saveGlob.leaderboard;
         Debug.Log("LeaderCount: " + leaderboards.Count);
+        string nameText = "NAME";
+        string scoreText = "SCORE";
+        foreach(Leaderboard l in leaderboards)
+        {
+            try
+            {
+                nameText += "\n\n" + l.GetName();
+                scoreText += "\n\n" + l.GetScore();
+            }
+            catch { };
+        }
         /*leaderName.text = "NAME\n\n" + leaderboards[0].GetName() + "\n\n" +
             leaderboards[1].GetName() + "\n\n" + leaderboards[2].GetName() + "\n\n" +
             leaderboards[3].GetName() + "\n\n" + leaderboards[4].GetName();
+
         leaderScore.text = "SCORE\n\n" + leaderboards[0].GetScore() + "\n\n" +
             leaderboards[1].GetScore() + "\n\n" + leaderboards[2].GetScore() + "\n\n" +
-            leaderboards[3].GetScore() + "\n\n" + leaderboards[4].GetScore();*/
+            leaderboards[3].GetScore() + "\n\n" + leaderboards[4].GetScore();
+            */
+        leaderName.text = nameText;
+        leaderScore.text = scoreText;
     }
 }
