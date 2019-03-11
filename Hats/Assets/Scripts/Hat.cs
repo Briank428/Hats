@@ -17,7 +17,6 @@ public class Hat : MonoBehaviour
         height = c.bounds.size.y;
         gmInstance = GameManager.gm;
         name = name.Remove(name.IndexOf("(Clone)"));
-        Debug.Log(name);
     }
 
     private void Update()

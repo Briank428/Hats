@@ -220,29 +220,25 @@ public class GameManager : MonoBehaviour
 
     void Leaderboard()
     {
-        if (leaderboard.Count == 0) leaderboard.Add(new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
-        if (leaderboard.Count == 5) {
-            bool inserted = false;
-            for (int i = 0; i < leaderboard.Count; i++)
-            {
-                Leaderboard place = leaderboard[i];
-                if (place.GetScore() < numHatsCollected) { leaderboard.Insert(i, new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected)); inserted = true;  }
-            }
-            if (!inserted) leaderboard.Add(new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected));
-        }
+        Debug.Log("Leader: " + leaderboard.Count);
+        Leaderboard currentScore = new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected);
+        if (leaderboard.Count == 0) leaderboard.Add(currentScore);
         else
         {
-            bool inserted = false;
             for (int i = 0; i < leaderboard.Count; i++)
             {
-                Leaderboard place = leaderboard[i];
-                if (place.GetScore() < numHatsCollected) { leaderboard.Insert(i, new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected)); inserted = true;  }
+                Leaderboard temp = leaderboard[i];
+                if (currentScore > temp) leaderboard.Insert(i,currentScore);
             }
-            if (inserted) leaderboard.RemoveAt(5);
+            //if (leaderboard.Count == 6) leaderboard.RemoveAt(5);
         }
         Debug.Log("Leader: " + leaderboard.Count);
         saveManager.saveGlob.leaderboard = leaderboard;
         Debug.Log("Leader: " + leaderboard.Count);
+        foreach(Leaderboard l in leaderboard)
+        {
+            Debug.Log (l.name +" : "+ l.score);
+        }
     }
 
     void TestForAchievements() //creates and adds achievements to list

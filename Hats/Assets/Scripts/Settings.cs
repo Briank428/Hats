@@ -137,7 +137,6 @@ public class Settings : MonoBehaviour
     public void Leaderboard()
     {
         SaveManager saveM = new SaveManager();
-        saveM.loadDataFromDisk();
         List<Leaderboard> leaderboards = saveM.saveGlob.leaderboard;
         Debug.Log("LeaderCount: " + leaderboards.Count);
         /*leaderText.text = "   \tName \t\tScore\n" +

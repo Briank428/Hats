@@ -10,9 +10,8 @@ public class SaveManager
     public SaveManager()
     {
         this.savePath = Application.persistentDataPath + "/save.dat";
-        Debug.Log(savePath);
         this.saveGlob = new SaveGlob();
-        //this.loadDataFromDisk();   
+        this.loadDataFromDisk();   
     }
     /**
      * Saves the save data to the disk
@@ -23,6 +22,7 @@ public class SaveManager
         FileStream file = File.Create(savePath);
         bf.Serialize(file, saveGlob);
         file.Close();
+        Debug.Log("Saved");
     }
 
     /**
@@ -36,6 +36,8 @@ public class SaveManager
             FileStream file = File.Open(savePath, FileMode.Open);
             this.saveGlob = (SaveGlob)bf.Deserialize(file);
             file.Close();
+            Debug.Log("Retrieved");
         }
+        else { Debug.Log("New"); }
     }
 }
