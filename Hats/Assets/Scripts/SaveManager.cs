@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using System.Linq;
 
 public class SaveManager
 {
@@ -11,12 +12,12 @@ public class SaveManager
     {
         this.savePath = Application.persistentDataPath + "/save.dat";
         this.saveGlob = new SaveGlob();
-        this.loadDataFromDisk();   
+        this.LoadDataFromDisk();   
     }
     /**
      * Saves the save data to the disk
      */
-    public void saveDataToDisk()
+    public void SaveDataToDisk()
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(savePath);
@@ -28,7 +29,7 @@ public class SaveManager
     /**
      * Loads the save data from the disk
      */
-    public void loadDataFromDisk()
+    public void LoadDataFromDisk()
     {
         if (File.Exists(savePath))
         {

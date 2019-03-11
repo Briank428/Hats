@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -197,7 +198,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine("EndGameScroll");
         TestForAchievements();
         Leaderboard();
-        saveManager.saveDataToDisk();
     }
 
     IEnumerator EndGameScroll()
@@ -239,6 +239,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log (l.name +" : "+ l.score);
         }
+        saveManager.SaveDataToDisk();
     }
 
     void TestForAchievements() //creates and adds achievements to list

@@ -21,7 +21,8 @@ public class Settings : MonoBehaviour
     public Button infoB;
     public Image infoPanel;
     public Image leaderPanel;
-    public Text leaderText;
+    public Text leaderName;
+    public Text leaderScore;
     public Image achievePanel;
 
     public Sprite onMusic;
@@ -139,11 +140,11 @@ public class Settings : MonoBehaviour
         SaveManager saveM = new SaveManager();
         List<Leaderboard> leaderboards = saveM.saveGlob.leaderboard;
         Debug.Log("LeaderCount: " + leaderboards.Count);
-        /*leaderText.text = "   \tName \t\tScore\n" +
-            "1. \t" + leaderboards[0].GetName() + "\t\t" + leaderboards[0].GetScore() +
-            "\n2. \t" + leaderboards[1].GetName() + "\t\t" + leaderboards[1].GetScore() +
-            "\n3. \t" + leaderboards[2].GetName() + "\t\t" + leaderboards[2].GetScore() +
-            "\n4. \t" + leaderboards[3].GetName() + "\t\t" + leaderboards[3].GetScore() +
-            "\n5. \t" + leaderboards[4].GetName() + "\t\t" + leaderboards[4].GetScore();*/
+        /*leaderName.text = "NAME\n\n" + leaderboards[0].GetName() + "\n\n" +
+            leaderboards[1].GetName() + "\n\n" + leaderboards[2].GetName() + "\n\n" +
+            leaderboards[3].GetName() + "\n\n" + leaderboards[4].GetName();
+        leaderScore.text = "SCORE\n\n" + leaderboards[0].GetScore() + "\n\n" +
+            leaderboards[1].GetScore() + "\n\n" + leaderboards[2].GetScore() + "\n\n" +
+            leaderboards[3].GetScore() + "\n\n" + leaderboards[4].GetScore();*/
     }
 }
