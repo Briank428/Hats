@@ -30,12 +30,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region private vars
-    private SaveManager saveManager;
+    private static SaveManager saveManager;
     private float currentSpeed; //stores current time between drops
     private Player playerInstance;
     [SerializeField]
     private int numLives;
-    private List<Achievements> achievements;
+    private static List<Achievements> achievements;
     private List<Leaderboard> leaderboard;
     private bool gamePlaying;
     private bool paused;
@@ -249,6 +249,11 @@ public class GameManager : MonoBehaviour
         saveManager.saveGlob.completedAchievements = achievements;
     }
 
+    public static void ResetAchieve()
+    {
+        achievements = new List<Achievements>();
+        Settings.resetBool = true;
+    }
     public bool achievementsAdd(string n, string s)
     {
         Achievements temp = new Achievements(n,s);

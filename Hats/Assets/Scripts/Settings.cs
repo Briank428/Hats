@@ -9,20 +9,23 @@ public class Settings : MonoBehaviour
     #region vars
     private bool isOpen;
     private Button lastClicked;
+
+    public static bool resetBool;
     
     private int total = 16;
-    private int lineSpacing = 3;
+    private int lineSpacing=42;
 
     public List<Button> buttons = new List<Button>();
     private List<Achievements> achieve;
     public Text title;
-    public InputField input;
     public Button startB;
     public Button soundB;
     public Button musicB;
     public Button achieveB;
     public Button leaderB;
     public Button infoB;
+    public Button back;
+    public Button reset;
     public Image infoPanel;
     public Image leaderPanel;
     public Text leaderName;
@@ -55,6 +58,9 @@ public class Settings : MonoBehaviour
         achieveB.onClick.AddListener(AchievePanel);
         leaderB.onClick.AddListener(LeaderPanel);
         infoB.onClick.AddListener(InfoPanel);
+        back.onClick.AddListener(CloseAchieve);
+        reset.onClick.AddListener(GameManager.ResetAchieve);
+        reset.onClick.AddListener(Achievements);
         buttons.Add(achieveB);
         buttons.Add(leaderB);
         buttons.Add(infoB);
@@ -63,35 +69,32 @@ public class Settings : MonoBehaviour
     }
     public void Update()
     {
-        if (achievePanel.offsetMax.y < 0)
-        { //It seems that is checking for less than 0, but the syntax is weird
-            achievePanel.offsetMax = new Vector2(400, ((achieve.Count + 1) * lineSpacing) - lineSpacing); //Sets its value back.
-            achievePanel.offsetMin = new Vector2(); //Sets its value back.
-        }
-        if (achievePanel.offsetMax.y > ((achieve.Count +1) * lineSpacing) - lineSpacing)
-        { // Checks the values
-            achievePanel.offsetMax = new Vector2(400, ((achieve.Count+1) * lineSpacing) - lineSpacing); // Set its value back
-            achievePanel.offsetMin = new Vector2();
-        }
+        achievePanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)(achieve.Count + .5) * lineSpacing);
     }
     public void Reset() {
         int temp = buttons.IndexOf(lastClicked);
-        if (isOpen && temp == 0) achieveP.gameObject.SetActive(false);
-        if (isOpen && temp == 1) leaderPanel.gameObject.SetActive(false);
-        if (isOpen && temp == 2) infoPanel.gameObject.SetActive(false);
+        if (isOpen && temp == 0) { achieveP.gameObject.SetActive(false); infoB.gameObject.SetActive(true);
+            leaderB.gameObject.SetActive(true); achieveB.gameObject.SetActive(true); }
+        else if (isOpen && temp == 1) leaderPanel.gameObject.SetActive(false);
+        else if (isOpen && temp == 2) infoPanel.gameObject.SetActive(false);
         else { title.gameObject.SetActive(false); startB.gameObject.SetActive(false);
-            input.gameObject.SetActive(false);  }
+            soundB.gameObject.SetActive(false); musicB.gameObject.SetActive(false); }
+    }
+    public void CloseAchieve()
+    {
+        Reset();
+        title.gameObject.SetActive(true); startB.gameObject.SetActive(true);
+        soundB.gameObject.SetActive(true); musicB.gameObject.SetActive(true);
+        isOpen = false;
     }
     public void AchievePanel()
     {
-        if (isOpen && lastClicked == achieveB) {
-            achieveP.gameObject.SetActive(false);
-            title.gameObject.SetActive(true);
-            startB.gameObject.SetActive(true);
-            input.gameObject.SetActive(true);
-            isOpen = false;
-        }
-        else { Reset(); achieveP.gameObject.SetActive(true); isOpen = true; }
+        Reset();
+        infoB.gameObject.SetActive(false);
+        achieveB.gameObject.SetActive(false);
+        leaderB.gameObject.SetActive(false);
+        achieveP.gameObject.SetActive(true);
+        isOpen = true;
         lastClicked = achieveB;
     }
     public void LeaderPanel()
@@ -101,7 +104,8 @@ public class Settings : MonoBehaviour
             leaderPanel.gameObject.SetActive(false);
             title.gameObject.SetActive(true);
             startB.gameObject.SetActive(true);
-            input.gameObject.SetActive(true);
+            soundB.gameObject.SetActive(true);
+            musicB.gameObject.SetActive(true);
             isOpen = false;
         }
         else { Reset(); leaderPanel.gameObject.SetActive(true); isOpen = true; }
@@ -114,7 +118,8 @@ public class Settings : MonoBehaviour
             infoPanel.gameObject.SetActive(false);
             title.gameObject.SetActive(true);
             startB.gameObject.SetActive(true);
-            input.gameObject.SetActive(true);
+            soundB.gameObject.SetActive(true);
+            musicB.gameObject.SetActive(true);
             isOpen = false;
         }
         else { Reset(); infoPanel.gameObject.SetActive(true); isOpen = true; }
@@ -177,10 +182,16 @@ public class Settings : MonoBehaviour
     {
         SaveManager saveM = new SaveManager();
         achieve = saveM.saveGlob.completedAchievements;
-        string aList = "\n\tYOU HAVE " + achieve.Count + " OUT OF " + total + " ACHIEVEMENTS";
-        foreach (Achievements element in achieve) {
-            aList += "\n\n\t" + element.name + "\n\t\t" + element.description;
+        string aList;
+        if (!resetBool)
+        {
+            aList = "<b>\nYOU HAVE " + achieve.Count + " OUT OF " + total + " ACHIEVEMENTS</b>";
+            foreach (Achievements element in achieve)
+            {
+                aList += "\n\n\"" + element.name + "\"\n" + element.description;
+            }
         }
+        else { aList = "<b>\nYOU HAVE 0 OUT OF " + total + " ACHIEVEMENTS</b>"; resetBool = false; }
         achieveText.text = aList;
     }
 }
