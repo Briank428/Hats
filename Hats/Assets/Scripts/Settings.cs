@@ -10,9 +10,11 @@ public class Settings : MonoBehaviour
     private bool isOpen;
     private Button lastClicked;
     
-    private int total; 
+    private int total = 16;
+    private int lineSpacing = 3;
 
     public List<Button> buttons = new List<Button>();
+    private List<Achievements> achieve;
     public Text title;
     public InputField input;
     public Button startB;
@@ -25,7 +27,8 @@ public class Settings : MonoBehaviour
     public Image leaderPanel;
     public Text leaderName;
     public Text leaderScore;
-    public Image achievePanel;
+    public Image achieveP;
+    public RectTransform achievePanel;
     public Text achieveText;
 
     public Sprite onMusic;
@@ -45,7 +48,7 @@ public class Settings : MonoBehaviour
         sound = true;
         infoPanel.gameObject.SetActive(false);
         leaderPanel.gameObject.SetActive(false);
-        achievePanel.gameObject.SetActive(false);
+        achieveP.gameObject.SetActive(false);
         startB.onClick.AddListener(StartGame);
         soundB.onClick.AddListener(ToggleSound);
         musicB.onClick.AddListener(ToggleMusic);
@@ -58,10 +61,22 @@ public class Settings : MonoBehaviour
         Leaderboard();
         Achievements();
     }
-
+    public void Update()
+    {
+        if (achievePanel.offsetMax.y < 0)
+        { //It seems that is checking for less than 0, but the syntax is weird
+            achievePanel.offsetMax = new Vector2(400, ((achieve.Count + 1) * lineSpacing) - lineSpacing); //Sets its value back.
+            achievePanel.offsetMin = new Vector2(); //Sets its value back.
+        }
+        if (achievePanel.offsetMax.y > ((achieve.Count +1) * lineSpacing) - lineSpacing)
+        { // Checks the values
+            achievePanel.offsetMax = new Vector2(400, ((achieve.Count+1) * lineSpacing) - lineSpacing); // Set its value back
+            achievePanel.offsetMin = new Vector2();
+        }
+    }
     public void Reset() {
         int temp = buttons.IndexOf(lastClicked);
-        if (isOpen && temp == 0) achievePanel.gameObject.SetActive(false);
+        if (isOpen && temp == 0) achieveP.gameObject.SetActive(false);
         if (isOpen && temp == 1) leaderPanel.gameObject.SetActive(false);
         if (isOpen && temp == 2) infoPanel.gameObject.SetActive(false);
         else { title.gameObject.SetActive(false); startB.gameObject.SetActive(false);
@@ -70,13 +85,13 @@ public class Settings : MonoBehaviour
     public void AchievePanel()
     {
         if (isOpen && lastClicked == achieveB) {
-            achievePanel.gameObject.SetActive(false);
+            achieveP.gameObject.SetActive(false);
             title.gameObject.SetActive(true);
             startB.gameObject.SetActive(true);
             input.gameObject.SetActive(true);
             isOpen = false;
         }
-        else { Reset(); achievePanel.gameObject.SetActive(true); isOpen = true; }
+        else { Reset(); achieveP.gameObject.SetActive(true); isOpen = true; }
         lastClicked = achieveB;
     }
     public void LeaderPanel()
@@ -161,7 +176,7 @@ public class Settings : MonoBehaviour
     public void Achievements()
     {
         SaveManager saveM = new SaveManager();
-        List<Achievements> achieve = saveM.saveGlob.completedAchievements;
+        achieve = saveM.saveGlob.completedAchievements;
         string aList = "\n\tYOU HAVE " + achieve.Count + " OUT OF " + total + " ACHIEVEMENTS";
         foreach (Achievements element in achieve) {
             aList += "\n\n\t" + element.name + "\n\t\t" + element.description;
