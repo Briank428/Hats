@@ -40,7 +40,8 @@ public class PauseButton : MonoBehaviour
     }
 
     public void OpenPause() { GameManager.TogglePause();  pausePanel.gameObject.SetActive(true); pauseB.gameObject.SetActive(false);  }
-    public void ClosePause() { GameManager.TogglePause();  pausePanel.gameObject.SetActive(false); pauseB.gameObject.SetActive(true);  }
+    public void ClosePause() { GameManager.TogglePause();  Debug.Log("Closing panel");
+        pausePanel.gameObject.SetActive(false); pauseB.gameObject.SetActive(true);  }
     public void SceneChange() { SceneManager.LoadScene("Title"); }
 
     public void ToggleMusic(){

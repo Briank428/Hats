@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         counter.text = "0";
         gm = this;
+        countdown.gameObject.SetActive(false);
         saveManager = new SaveManager();
         achievements = saveManager.saveGlob.completedAchievements;
         leaderboard = saveManager.saveGlob.leaderboard;
@@ -70,12 +71,14 @@ public class GameManager : MonoBehaviour
         if (MusicFX.music) playerInstance.gameObject.GetComponent<AudioSource>().Play();
 
         //Countdown
+        countdown.gameObject.SetActive(true);
         for (int i = 3; i >= 1; i--)
         {
             Debug.Log(i); //insert countdown here
             countdown.text = i.ToString();
             yield return new WaitForSeconds(1);
         }
+        countdown.gameObject.SetActive(false);
         Debug.Log("Start!"); //insert Start! here
         countdown.text = "Start!";
         yield return new WaitForSeconds(1);
@@ -269,6 +272,7 @@ public class GameManager : MonoBehaviour
     {
         if (gm.paused)
         {
+            Debug.Log("unpause");
             gm.paused = false;
             Time.timeScale = 1;
             gm.playerInstance.GetComponent<MouseMove2D>().enabled = true;

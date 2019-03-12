@@ -805,7 +805,7 @@ MonoBehaviour:
   offMusic: {fileID: 21300000, guid: c5add3db09289d649a64ca02a7e9e434, type: 3}
   onSound: {fileID: 21300000, guid: 12f7edef46041604ea365cb5cc5586f0, type: 3}
   offSound: {fileID: 21300000, guid: f25ccbd5105672642afc720d4c9f7e65, type: 3}
-  kyle: {fileID: 0}
+  kyle: {fileID: 4176682267730814751, guid: 967cc099169786a419e95d7396bac3e7, type: 3}
   pauseB: {fileID: 1189310530}
   playB: {fileID: 873098665}
   musicB: {fileID: 2097610579}
