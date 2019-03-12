@@ -14,7 +14,7 @@ public class Hat : MonoBehaviour
         Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
         rb.mass = 1;
         BoxCollider2D c = gameObject.GetComponent<BoxCollider2D>();
-        height = c.bounds.size.y;
+        height = c.bounds.size.y * transform.localScale.y;
         gmInstance = GameManager.gm;
         name = name.Remove(name.IndexOf("(Clone)"));
     }

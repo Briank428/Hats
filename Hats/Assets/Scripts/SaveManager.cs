@@ -21,7 +21,6 @@ public class SaveManager
      */
     public void SaveDataToDisk()
     {
-        if (PlayerPrefs.GetString("Name") == "USE_4_TEST") return;
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(savePath);
         bf.Serialize(file, saveGlob);
@@ -34,26 +33,6 @@ public class SaveManager
      */
     public void LoadDataFromDisk()
     {
-        if (PlayerPrefs.GetString("Name") == "USE_4_TEST")
-        {
-            this.saveGlob.completedAchievements = new List<Achievements>
-            {
-                new Achievements("Achievemnt 1", "this is a test"),
-                new Achievements("Achievement 2", "also a test"),
-                new Achievements("Achievement 3", "take a guess, its a test"),
-                new Achievements("Achievement 4", "this here is an exam"),
-                new Achievements("Achievement the seventeenth", "Hi")
-                };
-            this.saveGlob.leaderboard = new List<Leaderboard>
-            {
-                new Leaderboard("RealPlayer", 900),
-                new Leaderboard("RealerPlayer",100),
-                new Leaderboard("Ms Pacman", 85),
-                new Leaderboard("Superman", 69),
-                new Leaderboard("John Doe", 3)
-            };
-            return;
-        }
         if (File.Exists(savePath))
         {
             BinaryFormatter bf = new BinaryFormatter();

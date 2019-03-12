@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     public static GameManager gm;
     public Text counter;
     public Text life;
+    public Text countdown;
     public List<Image> lives;
     public int numHatsCollected;
 
@@ -33,8 +35,6 @@ public class GameManager : MonoBehaviour
     private Player playerInstance;
     [SerializeField]
     private int numLives;
-    private Hat lastHat;
-    private int hatStreak;
     private List<Achievements> achievements;
     private List<Leaderboard> leaderboard;
     private bool gamePlaying;
@@ -55,8 +55,6 @@ public class GameManager : MonoBehaviour
         numLives = 9;
         currentSpeed = SPEED_INIT;
         StartCoroutine("StartGame");
-        hatStreak = 0;
-        lastHat = null;
         gamePlaying = true;
         paused = false;
         foreach (Image i in lives) i.gameObject.SetActive(true);
@@ -67,43 +65,31 @@ public class GameManager : MonoBehaviour
     {
         //spawn player
         playerInstance = Instantiate(playerPrefab) as Player;
-        playerInstance.transform.position = new Vector2(0, -10);
+        playerInstance.transform.position = new Vector2(0, -13);
+        playerInstance.gameObject.GetComponent<MouseMove2D>().enabled = false;
         if (MusicFX.music) playerInstance.gameObject.GetComponent<AudioSource>().Play();
 
         //Countdown
         for (int i = 3; i >= 1; i--)
         {
             Debug.Log(i); //insert countdown here
+            countdown.text = i.ToString();
             yield return new WaitForSeconds(1);
         }
         Debug.Log("Start!"); //insert Start! here
+        countdown.text = "Start!";
+        yield return new WaitForSeconds(1);
+        countdown.text = "";
 
-        if (PlayerPrefs.GetString("Name") == "USE_4_TEST")
+        playerInstance.gameObject.GetComponent<MouseMove2D>().enabled = true;
+        while (gamePlaying)
         {
-            StartCoroutine(SpawnAllHats());
+            yield return new WaitForSeconds(currentSpeed);
+            SpawnHat();
         }
-        else
-        {
-            while (gamePlaying)
-            {
-                yield return new WaitForSeconds(currentSpeed);
-                SpawnHat();
-            }
-        }
+        
     }
 
-    IEnumerator SpawnAllHats()
-    {
-        foreach(Hat h in hatTypes)
-        {
-            numLives = 9;
-            Hat temp2 = Instantiate(h) as Hat;
-            float width = 0;
-            spawnPoint.position = new Vector2(width, spawnPoint.position.y);
-            temp2.transform.position = spawnPoint.position;
-            yield return new WaitForSeconds(.5f);
-        }
-    }
     void SpawnHat() //spawns hats and anvils (anvils are a type of hat for simplicity)
     {
         //choose hat to spawn
@@ -111,7 +97,7 @@ public class GameManager : MonoBehaviour
         do
         {
             temp = hatTypes[random.Next(hatTypes.Count)];
-        } while (random.Next(0, 1) < temp.skipProbability);
+        } while (random.Next(0, 100)/100.0 < temp.skipProbability);
 
         //spawn hat
 
@@ -126,22 +112,12 @@ public class GameManager : MonoBehaviour
         hatsCollected.Add(hat.name);
         numHatsCollected++;
         counter.text = "" + numHatsCollected;
-        spawnPoint.position += new Vector3(0, hat.height, 0);
-        camera1.transform.position += new Vector3(0, hat.height, 0);
+        spawnPoint.position += new Vector3(0, 2 * hat.height, 0);
+        camera1.transform.position += new Vector3(0, 2 * hat.height, 0);
         if (numHatsCollected % 10 == 0 && currentSpeed > MAX_SPEED + SPEED_DECREMENT)
         {
             currentSpeed -= SPEED_DECREMENT;
             Debug.Log("Speed Up");
-        }
-        if (lastHat == hat)
-        {
-            hatStreak++;
-            if (hatStreak == 7 && hat.name == "Top Hat") achievementsAdd("Four score and 7 hats ago", "Catch 7 Top Hats in a row");
-        }
-        else
-        {
-            lastHat = hat;
-            hatStreak = 1;
         }
         if (hat.name == "Doctor Hat" && numLives < 9)
         {
@@ -221,7 +197,7 @@ public class GameManager : MonoBehaviour
     void Leaderboard()
     {
         Debug.Log("Leader: " + leaderboard.Count);
-        Leaderboard currentScore = new Leaderboard(PlayerPrefs.GetString("Name"), numHatsCollected);
+        Leaderboard currentScore = new Leaderboard(DateTime.Now.ToString("dd MMMM yyyy"), numHatsCollected);
         if (leaderboard.Count == 0) leaderboard.Add(currentScore);
         else
         {

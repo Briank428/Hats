@@ -10,15 +10,14 @@ public class Player : MonoBehaviour
     {
         tag = "Player";
         gmInstance = GameManager.gm;
-        height = transform.localScale.y;
-        Debug.Log(height);
+        height = GetComponent<Collider2D>().offset.y;
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.transform.tag == "Anvil")
         {
             Destroy(other.gameObject.GetComponent<Hat>());
-            if (MusicFX.sound) { other.gameObject.GetComponent<AudioSource>().Play(0); Debug.Log("Anvil"); }
+            if (MusicFX.sound) { other.gameObject.GetComponent<AudioSource>().Play(0); }
             if (MusicFX.music) { this.GetComponent<AudioSource>().Stop(); }
             gmInstance.AnvilHit();
         }

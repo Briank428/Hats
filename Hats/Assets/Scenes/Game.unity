@@ -780,6 +780,7 @@ RectTransform:
   - {fileID: 1963402891}
   - {fileID: 601967905}
   - {fileID: 1419486605}
+  - {fileID: 600225114}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -967,6 +968,85 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &600225113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600225114}
+  - component: {fileID: 600225116}
+  - component: {fileID: 600225115}
+  m_Layer: 5
+  m_Name: Countdown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &600225114
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600225113}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 476619222}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 40}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &600225115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600225113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 88bf6291648ce824981f755c062947a9, type: 3}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &600225116
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600225113}
+  m_CullTransparentMesh: 0
 --- !u!1 &601967904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,7 +1577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hatTypes:
-  - {fileID: 6893845402764141995, guid: f5c178b607caa404babe9daed7e87304, type: 3}
+  - {fileID: 2128608369886348091, guid: 3bd7c35723876fb4a91c24df106d45b7, type: 3}
   - {fileID: 2285831321830924068, guid: 46d73c97e2ad1b346869ccaeeac07ccd, type: 3}
   - {fileID: 5401540314786723210, guid: 1746d87c16a28ad4080b5d35a1c8b812, type: 3}
   - {fileID: 7780750788698393654, guid: b81e9b162f5eae44e863c939882c9af3, type: 3}
@@ -1506,20 +1586,20 @@ MonoBehaviour:
   - {fileID: 4629518336617043520, guid: 8ab0d28cb527c4f4596a1a82142b3f84, type: 3}
   - {fileID: 4749826040989771540, guid: 2acadd0680008ba4dbe4aab04a3cd85d, type: 3}
   - {fileID: 9038880254364742639, guid: 3ee4155a314bb9743b8a5a945f3cc2e5, type: 3}
+  - {fileID: 6893845402764141995, guid: f5c178b607caa404babe9daed7e87304, type: 3}
   - {fileID: 4009895810175294449, guid: 022a186e23e48af43a1e62757bb84039, type: 3}
   - {fileID: 5427380241123913340, guid: fdcb3f9c67360984195f718f156f9f0b, type: 3}
   - {fileID: 9121726603347935803, guid: 1c5e2c378e74ef84685390b723782467, type: 3}
   - {fileID: 7583256598840289048, guid: 103288dfbd8745a4daee154db9208548, type: 3}
   - {fileID: 901616505306042442, guid: 3d0c22640d774bb4da137170d769209b, type: 3}
-  - {fileID: 8102505117726291793, guid: ab1f27031cb67c042aae5c8f1be1823f, type: 3}
   - {fileID: 3372278073619727027, guid: 74cf99af30af93540934f689d557988f, type: 3}
-  - {fileID: 2128608369886348091, guid: 3bd7c35723876fb4a91c24df106d45b7, type: 3}
   playerPrefab: {fileID: 4176682267730814751, guid: 967cc099169786a419e95d7396bac3e7,
     type: 3}
   spawnPoint: {fileID: 1610992487}
   camera1: {fileID: 519420031}
   counter: {fileID: 1419486606}
   life: {fileID: 1955060740}
+  countdown: {fileID: 600225115}
   lives:
   - {fileID: 1604712998}
   - {fileID: 2135073104}
