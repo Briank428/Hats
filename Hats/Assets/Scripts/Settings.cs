@@ -10,6 +10,8 @@ public class Settings : MonoBehaviour
     private bool isOpen;
     private Button lastClicked;
     
+    private int total; 
+
     public List<Button> buttons = new List<Button>();
     public Text title;
     public InputField input;
@@ -24,6 +26,7 @@ public class Settings : MonoBehaviour
     public Text leaderName;
     public Text leaderScore;
     public Image achievePanel;
+    public Text achieveText;
 
     public Sprite onMusic;
     public Sprite offMusic;
@@ -53,6 +56,7 @@ public class Settings : MonoBehaviour
         buttons.Add(leaderB);
         buttons.Add(infoB);
         Leaderboard();
+        Achievements();
     }
 
     public void Reset() {
@@ -151,15 +155,17 @@ public class Settings : MonoBehaviour
             }
             catch { };
         }
-        /*leaderName.text = "NAME\n\n" + leaderboards[0].GetName() + "\n\n" +
-            leaderboards[1].GetName() + "\n\n" + leaderboards[2].GetName() + "\n\n" +
-            leaderboards[3].GetName() + "\n\n" + leaderboards[4].GetName();
-
-        leaderScore.text = "SCORE\n\n" + leaderboards[0].GetScore() + "\n\n" +
-            leaderboards[1].GetScore() + "\n\n" + leaderboards[2].GetScore() + "\n\n" +
-            leaderboards[3].GetScore() + "\n\n" + leaderboards[4].GetScore();
-            */
         leaderName.text = nameText;
         leaderScore.text = scoreText;
+    }
+    public void Achievements()
+    {
+        SaveManager saveM = new SaveManager();
+        List<Achievements> achieve = saveM.saveGlob.completedAchievements;
+        string aList = "\n\tYOU HAVE " + achieve.Count + " OUT OF " + total + " ACHIEVEMENTS";
+        foreach (Achievements element in achieve) {
+            aList += "\n\n\t" + element.name + "\n\t\t" + element.description;
+        }
+        achieveText.text = aList;
     }
 }
