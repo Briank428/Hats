@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public Text countdown;
     public List<Image> lives;
     public int numHatsCollected;
-
+    public AudioClip main, secondary;
     #endregion
 
     #region consts
@@ -74,35 +74,39 @@ public class GameManager : MonoBehaviour
         paused = false;
         foreach (Image i in lives) i.gameObject.SetActive(true);
         hatsCollected = new List<string>();
+        GetComponent<AudioSource>().clip = main;
+        GetComponent<AudioSource>().Play();
+
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-
+        
         if (Input.GetKeyDown(konami[sequenceIndex]))
         {
             if (++sequenceIndex == konami.Length)
             {
                 sequenceIndex = 0;
                 achievementsAdd("Old Timer", "Enter the Konami Code");
-                if (MusicFX.sound)
+                if (PlayerPrefs.GetInt("Music") == 1)
                 {
-                    GetComponent<AudioSource>().Play(0);
-                    playerInstance.GetComponent<AudioSource>().Pause();
+                    GetComponent<AudioSource>().clip = secondary;
+                    GetComponent<AudioSource>().Play();
                 }
-                //something to do
             }
         }
         else if (Input.anyKeyDown) sequenceIndex = 0;
 
-        if(MusicFX.sound && playerInstance.GetComponent<AudioSource>().isPlaying == false && GetComponent<AudioSource>().isPlaying == false)
+        if(PlayerPrefs.GetInt("Music") == 1 && !GetComponent<AudioSource>().isPlaying)
         {
-            playerInstance.GetComponent<AudioSource>().UnPause();
+            GetComponent<AudioSource>().UnPause();
         }
+
+        if(PlayerPrefs.GetInt("Music") == 0 && GetComponent<AudioSource>().isPlaying)
+        {
+            GetComponent<AudioSource>().Pause();
+        }
+        
 
     }
 
@@ -112,7 +116,6 @@ public class GameManager : MonoBehaviour
         playerInstance = Instantiate(playerPrefab) as Player;
         playerInstance.transform.position = new Vector2(0, -13);
         playerInstance.gameObject.GetComponent<MouseMove2D>().enabled = false;
-        if (MusicFX.music) playerInstance.gameObject.GetComponent<AudioSource>().Play();
 
         //Countdown
         countdown.gameObject.SetActive(true);
@@ -178,6 +181,7 @@ public class GameManager : MonoBehaviour
 
     public void AnvilHit()
     {
+        this.GetComponent<AudioSource>().Stop();
         achievementsAdd("Ouch", "Get hit with an anvil");
         Debug.Log("Anvil");
         saveManager.saveGlob.totalAnvilsFallen++;

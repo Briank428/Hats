@@ -1612,6 +1612,8 @@ MonoBehaviour:
   - {fileID: 1963402892}
   - {fileID: 601967906}
   numHatsCollected: 0
+  main: {fileID: 8300000, guid: cba2538823e42d74ba4b921713d27f3d, type: 3}
+  secondary: {fileID: 8300000, guid: 08b3703cd6648e34182288678b2e45e5, type: 3}
   numLives: 0
 --- !u!4 &1208219973
 Transform:
@@ -1638,10 +1640,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 08b3703cd6648e34182288678b2e45e5, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

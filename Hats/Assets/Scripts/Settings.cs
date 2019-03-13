@@ -39,19 +39,18 @@ public class Settings : MonoBehaviour
     public Sprite onSound;
     public Sprite offSound;
 
-    private bool music;
-    private bool sound;
-
     #endregion
     void Start()
     {
         lastClicked = null;
         isOpen = false;
-        music = true;
-        sound = true;
+        if (!PlayerPrefs.HasKey("Music")) PlayerPrefs.SetInt("Music", 1);
+        if (!PlayerPrefs.HasKey("Sound")) PlayerPrefs.SetInt("Sound", 1);
         infoPanel.gameObject.SetActive(false);
         leaderPanel.gameObject.SetActive(false);
         achieveP.gameObject.SetActive(false);
+        if (PlayerPrefs.GetInt("Music") == 1) musicB.image.sprite = onMusic; else { musicB.image.sprite = offMusic; }
+        if (PlayerPrefs.GetInt("Sound") == 1) soundB.image.sprite = onSound; else { soundB.image.sprite = offSound; }
         startB.onClick.AddListener(StartGame);
         soundB.onClick.AddListener(ToggleSound);
         musicB.onClick.AddListener(ToggleMusic);
@@ -126,43 +125,38 @@ public class Settings : MonoBehaviour
     }
     public void ToggleMusic()
     {
-        bool temp = music;
-        if (music)
+        if(PlayerPrefs.GetInt("Music") == 1)
         {
-            music = false;
+            PlayerPrefs.SetInt("Music", 0);
             musicB.image.sprite = offMusic;
         }
         else
         {
-            music = true;
+            PlayerPrefs.SetInt("Music", 1);
             musicB.image.sprite = onMusic;
         }
     }
     public void ToggleSound()
     {
-        bool temp = sound;
-        if (sound)
+        if (PlayerPrefs.GetInt("Sound") == 1)
         {
-            sound = false;
+            PlayerPrefs.SetInt("Sound", 0);
             soundB.image.sprite = offSound;
         }
         else
         {
-            sound = true;
+            PlayerPrefs.SetInt("Sound", 1);
             soundB.image.sprite = onSound;
         }
     }
     public void StartGame()
     {
-        MusicFX.sound = sound; Debug.Log("Sound: " + sound);
-        MusicFX.music = music; Debug.Log("Music: " + music);
         SceneManager.LoadScene("Game");
     }
     public void Leaderboard()
     {
         SaveManager saveM = new SaveManager();
         List<Leaderboard> leaderboards = saveM.saveGlob.leaderboard;
-        Debug.Log("LeaderCount: " + leaderboards.Count);
         string nameText = "TIME";
         string scoreText = "SCORE";
         foreach(Leaderboard l in leaderboards)

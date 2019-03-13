@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class PauseButton : MonoBehaviour
 {
-    private bool music;
-    private bool sound;
 
     public Sprite onMusic;
     public Sprite offMusic;
@@ -27,14 +25,15 @@ public class PauseButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        music = MusicFX.music;
-        sound = MusicFX.sound;
-        if (!music) musicB.image.sprite = offMusic;
-        if (!sound) soundB.image.sprite = offSound;
+        if (!PlayerPrefs.HasKey("Music")) PlayerPrefs.SetInt("Music", 1);
+        if (!PlayerPrefs.HasKey("Sound")) PlayerPrefs.SetInt("Sound", 1);
+        if (PlayerPrefs.GetInt("Music") == 1) musicB.image.sprite = onMusic; else { musicB.image.sprite = offMusic; }
+        if (PlayerPrefs.GetInt("Sound") == 1) soundB.image.sprite = onSound; else { soundB.image.sprite = offSound; }
         pausePanel.gameObject.SetActive(false);
         pauseB.onClick.AddListener(OpenPause);
         playB.onClick.AddListener(ClosePause);
         menuB.onClick.AddListener(SceneChange);
+
         soundB.onClick.AddListener(ToggleSound);
         musicB.onClick.AddListener(ToggleMusic);
     }
@@ -42,19 +41,33 @@ public class PauseButton : MonoBehaviour
     public void OpenPause() { GameManager.TogglePause();  pausePanel.gameObject.SetActive(true); pauseB.gameObject.SetActive(false);  }
     public void ClosePause() { GameManager.TogglePause();  Debug.Log("Closing panel");
         pausePanel.gameObject.SetActive(false); pauseB.gameObject.SetActive(true);  }
-    public void SceneChange() { SceneManager.LoadScene("Title"); }
+    public void SceneChange() { GameManager.TogglePause();  SceneManager.LoadScene("Title"); }
 
-    public void ToggleMusic(){
-        bool temp = music;
-        if (music) { music = false; musicB.image.sprite = offMusic;
-            Debug.Log("pause");  kyle.GetComponent<AudioSource>().Pause(); }
-        else { music = true; musicB.image.sprite = onMusic;
-            Debug.Log("play");  kyle.GetComponent<AudioSource>().Play(0); }
+    public void ToggleMusic()
+    {
+        if (PlayerPrefs.GetInt("Music") == 1)
+        {
+            PlayerPrefs.SetInt("Music", 0);
+            musicB.image.sprite = offMusic;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Music", 1);
+            musicB.image.sprite = onMusic;
+        }
     }
-    public void ToggleSound() {
-        bool temp = sound;
-        if (sound) { sound = false; soundB.image.sprite = offSound; }
-        else { sound = true; soundB.image.sprite = onSound; }
+    public void ToggleSound()
+    {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            PlayerPrefs.SetInt("Sound", 0);
+            soundB.image.sprite = offSound;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Sound", 1);
+            soundB.image.sprite = onSound;
+        }
     }
 
 }
