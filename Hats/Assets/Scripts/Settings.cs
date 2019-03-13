@@ -13,7 +13,7 @@ public class Settings : MonoBehaviour
     public static bool resetBool;
     
     private int total = 17;
-    private int lineSpacing=42;
+    private int lineSpacing=43;
 
     public List<Button> buttons = new List<Button>();
     private List<Achievements> achieve;
