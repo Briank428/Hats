@@ -12,7 +12,7 @@ public class Settings : MonoBehaviour
 
     public static bool resetBool;
     
-    private int total = 16;
+    private int total = 17;
     private int lineSpacing=42;
 
     public List<Button> buttons = new List<Button>();
@@ -59,8 +59,7 @@ public class Settings : MonoBehaviour
         leaderB.onClick.AddListener(LeaderPanel);
         infoB.onClick.AddListener(InfoPanel);
         back.onClick.AddListener(CloseAchieve);
-        reset.onClick.AddListener(GameManager.ResetAchieve);
-        reset.onClick.AddListener(Achievements);
+        reset.onClick.AddListener(ResetAchieve);
         buttons.Add(achieveB);
         buttons.Add(leaderB);
         buttons.Add(infoB);
@@ -123,7 +122,7 @@ public class Settings : MonoBehaviour
             isOpen = false;
         }
         else { Reset(); infoPanel.gameObject.SetActive(true); isOpen = true; }
-        lastClicked = infoB;
+        lastClicked = infoB;    
     }
     public void ToggleMusic()
     {
@@ -164,7 +163,7 @@ public class Settings : MonoBehaviour
         SaveManager saveM = new SaveManager();
         List<Leaderboard> leaderboards = saveM.saveGlob.leaderboard;
         Debug.Log("LeaderCount: " + leaderboards.Count);
-        string nameText = "NAME";
+        string nameText = "TIME";
         string scoreText = "SCORE";
         foreach(Leaderboard l in leaderboards)
         {
@@ -193,5 +192,15 @@ public class Settings : MonoBehaviour
         }
         else { aList = "<b>\nYOU HAVE 0 OUT OF " + total + " ACHIEVEMENTS</b>"; resetBool = false; }
         achieveText.text = aList;
+    }
+    public void ResetAchieve()
+    {
+        SaveManager saveM = new SaveManager();
+        saveM.saveGlob.completedAchievements = new List<Achievements>();
+        saveM.saveGlob.totalAnvilsFallen = 0;
+        saveM.saveGlob.totalDoctorsHats = 0;
+        saveM.SaveDataToDisk();
+        resetBool = true;
+        Achievements();
     }
 }

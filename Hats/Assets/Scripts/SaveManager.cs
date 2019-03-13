@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using System.Linq;
-using System.Collections.Generic;
 
 public class SaveManager
 {
@@ -43,4 +41,5 @@ public class SaveManager
         }
         else { Debug.Log("New"); }
     }
+
 }

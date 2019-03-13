@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Linq;
 using System;
 
 public class GameManager : MonoBehaviour
@@ -40,6 +39,21 @@ public class GameManager : MonoBehaviour
     private bool gamePlaying;
     private bool paused;
     private List<string> hatsCollected;
+    
+    private KeyCode[] konami = new KeyCode[]
+    {
+        KeyCode.UpArrow,
+        KeyCode.UpArrow,
+        KeyCode.DownArrow,
+        KeyCode.DownArrow,
+        KeyCode.LeftArrow,
+        KeyCode.RightArrow,
+        KeyCode.LeftArrow,
+        KeyCode.RightArrow,
+        KeyCode.B,
+        KeyCode.A
+    };
+    private int sequenceIndex;
     #endregion
 
     private static System.Random random = new System.Random();
@@ -60,6 +74,25 @@ public class GameManager : MonoBehaviour
         paused = false;
         foreach (Image i in lives) i.gameObject.SetActive(true);
         hatsCollected = new List<string>();
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+
+        if (Input.GetKeyDown(konami[sequenceIndex]))
+        {
+            if (++sequenceIndex == konami.Length)
+            {
+                sequenceIndex = 0;
+                achievementsAdd("Old Timer", "Enter the Konami Code");
+                //something to do
+            }
+        }
+        else if (Input.anyKeyDown) sequenceIndex = 0;
     }
 
     IEnumerator StartGame()
@@ -158,14 +191,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-    }
 
     void EndGame()
     {
@@ -200,7 +225,7 @@ public class GameManager : MonoBehaviour
     void Leaderboard()
     {
         Debug.Log("Leader: " + leaderboard.Count);
-        Leaderboard currentScore = new Leaderboard(DateTime.Now.ToString("dd MMMM yyyy"), numHatsCollected);
+        Leaderboard currentScore = new Leaderboard(DateTime.Now.ToString("MMMM dd, hh:mm "), numHatsCollected);
         if (leaderboard.Count == 0) leaderboard.Add(currentScore);
         else
         {
@@ -237,7 +262,7 @@ public class GameManager : MonoBehaviour
         if (hatsCollected.Contains("Fez")) achievementsAdd("Fezzes are cool", "Catch the Fez");
         if (hatsCollected.Contains("Ushanka")) achievementsAdd("For Mother Russia", "Catch the Ushanka");
         if (hatsCollected.Contains("Soda Hat")) achievementsAdd("Game Day", "Catch the Soda Hat");
-        if (hatsCollected.Contains("Graduation Cap")) achievementsAdd("Graduation Day", "Catch the Graduation Cap");
+        if (hatsCollected.Contains("Graduation Cap")) achievementsAdd("Freedom", "Catch the Graduation Cap");
 
         if (saveManager.saveGlob.totalAnvilsFallen > 10) achievementsAdd("Anvil Magnet", "Get hit with 10 anvils");
         if (saveManager.saveGlob.totalAnvilsFallen > 50) achievementsAdd("Masochist", "Get hit with 50 anvils");
@@ -252,11 +277,6 @@ public class GameManager : MonoBehaviour
         saveManager.saveGlob.completedAchievements = achievements;
     }
 
-    public static void ResetAchieve()
-    {
-        achievements = new List<Achievements>();
-        Settings.resetBool = true;
-    }
     public bool achievementsAdd(string n, string s)
     {
         Achievements temp = new Achievements(n,s);
