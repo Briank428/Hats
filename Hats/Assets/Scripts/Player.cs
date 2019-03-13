@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject.GetComponent<Rigidbody2D>());
             Destroy(other.gameObject.GetComponent<BoxCollider2D>());
             other.gameObject.tag = "Player";
-            other.transform.localPosition = new Vector2(0, height);
+            other.transform.localPosition = new Vector3(0, height,5);
             other.transform.localRotation = Quaternion.identity;
             Hat temp = other.gameObject.GetComponent<Hat>();
             gmInstance.HatCollected(temp);

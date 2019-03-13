@@ -13,6 +13,7 @@ public class Hat : MonoBehaviour
     {
         Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
         rb.mass = 1;
+        rb.drag = .5f;
         BoxCollider2D c = gameObject.GetComponent<BoxCollider2D>();
         height = c.bounds.size.y * transform.localScale.y;
         gmInstance = GameManager.gm;

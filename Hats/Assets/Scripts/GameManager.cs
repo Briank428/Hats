@@ -89,10 +89,21 @@ public class GameManager : MonoBehaviour
             {
                 sequenceIndex = 0;
                 achievementsAdd("Old Timer", "Enter the Konami Code");
+                if (MusicFX.sound)
+                {
+                    GetComponent<AudioSource>().Play(0);
+                    playerInstance.GetComponent<AudioSource>().Pause();
+                }
                 //something to do
             }
         }
         else if (Input.anyKeyDown) sequenceIndex = 0;
+
+        if(MusicFX.sound && playerInstance.GetComponent<AudioSource>().isPlaying == false && GetComponent<AudioSource>().isPlaying == false)
+        {
+            playerInstance.GetComponent<AudioSource>().UnPause();
+        }
+
     }
 
     IEnumerator StartGame()
@@ -153,6 +164,7 @@ public class GameManager : MonoBehaviour
         if (numHatsCollected % 10 == 0 && currentSpeed > MAX_SPEED + SPEED_DECREMENT)
         {
             currentSpeed -= SPEED_DECREMENT;
+            if(hat.gameObject.GetComponent<Rigidbody2D>().drag > 0) hat.gameObject.GetComponent<Rigidbody2D>().drag -= 0.1f;
             Debug.Log("Speed Up");
         }
         if (hat.name == "Doctor Hat" && numLives < 9)
@@ -210,7 +222,7 @@ public class GameManager : MonoBehaviour
         life.gameObject.SetActive(false);
         float t = 0.0f;
         Vector3 startingPos = camera1.transform.position;
-        Vector3 target = new Vector3(playerInstance.transform.position.x, playerInstance.transform.position.y, camera1.transform.position.z);
+        Vector3 target = new Vector3(playerInstance.transform.position.x, playerInstance.transform.position.y + 3, camera1.transform.position.z);
         float transitionDuration = 2f;
         while (t < 1.0f)
         {
@@ -273,6 +285,8 @@ public class GameManager : MonoBehaviour
         if (numHatsCollected > 25) achievementsAdd("25 Stack", "Catch 25 hats in a game");
         if (numHatsCollected > 50) achievementsAdd("50 Stack", "Catch 50 hats in a game");
         if (numHatsCollected > 100) achievementsAdd("100 Stack", "Catch 100 hats in a game");
+        if (numHatsCollected > 150) achievementsAdd("150 Stack", "Catch 150 hats in a game");
+
 
         saveManager.saveGlob.completedAchievements = achievements;
     }
